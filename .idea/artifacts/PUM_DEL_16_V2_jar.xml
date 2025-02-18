@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="PUM_DEL_16_V2:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/PUM_DEL_16_V2_jar</output-path>
+    <root id="archive" name="PUM_DEL_16_V2.jar">
+      <element id="module-output" name="PUM_DEL_16_V2" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jfree/jfreechart/1.5.4/jfreechart-1.5.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.26/lombok-1.18.26.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/fazecast/jSerialComm/2.9.3/jSerialComm-2.9.3.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
