@@ -3,7 +3,7 @@ package volkov.artiam.panels.portAndArduino;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import volkov.artiam.arduino.ArduinoAccess;
+import volkov.artiam.arduino.ArduinoSingleton;
 import volkov.artiam.datas.COMMANDS;
 import volkov.artiam.datas.TEXTs;
 import volkov.artiam.panels.port.PortView;
@@ -18,7 +18,7 @@ public class PortAndArduinoModel {
 
 	PortView panel = new PortView();
 
-	private ArduinoAccess arduinoAccess = ArduinoAccess.getInstance();
+	private ArduinoSingleton arduinoAccess = ArduinoSingleton.getInstance();
 	private PortDataReader portDataReader = new PortDataReader(arduinoAccess, this);
 	private PortDisconnectChecker portDisconnectChecker = new PortDisconnectChecker(arduinoAccess, this);
 

@@ -12,30 +12,28 @@ import static org.hamcrest.Matchers.equalTo;
 
 class ArduinoTest {
 
-    Arduino arduino; // = Arduino.getInstance();
+    Arduino arduino;
 
     @BeforeEach
     void setUp() {
-        setAllToNulls();
+        arduino = new Arduino();
+        arduino.setPorts(null);
     }
 
     @AfterEach
     void tearDown() {
-        setAllToNulls();
-    }
-
-    private void setAllToNulls(){
         arduino.setPorts(null);
     }
 
-//testing method getAvailblePortsNames()
 
     @Test
     void getAvailblePortsNamesWithPortsByDefault() {
         String[] portNames = arduino.getAvailblePortsNames();
         assertThat(portNames[0], equalTo("") );
-        //assertThat(arduino.getMessage(), equalTo("Нет доступных COM-портов" ) );
+        //(arduino.getMessage(), equalTo("Нет доступных COM-портов" ) );
     }
+
+
 
     @Test
     void getAvailblePortsNamesWithOnePort() {

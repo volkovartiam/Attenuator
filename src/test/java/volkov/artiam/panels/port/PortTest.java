@@ -31,9 +31,9 @@ class PortTest {
 
         assertFalse( port.getBtnLed().isEnabled() );
         port.actionPerformed( new ActionEvent( btnConnect, 0, "Подключение" ));
-        assertThat(port.getMessage(), equalTo("tryToConnect") );
+        //assertThat(port.getMessage(), equalTo("tryToConnect") );
 
-        port.isConnected(true);
+        port.setConnectedOrDisconnectedView(true);
         port.setSelectedPort("COM8");
 
         assertTrue( port.getBtnLed().isEnabled() );
@@ -48,9 +48,9 @@ class PortTest {
 
         assertFalse( port.getBtnLed().isEnabled() );
         port.actionPerformed( new ActionEvent( btnConnect, 0, "Подключение" ));
-        assertThat(port.getMessage(), equalTo("tryToConnect") );
+        //assertThat(port.getMessage(), equalTo("tryToConnect") );
 
-        port.isConnected(false);
+        port.setConnectedOrDisconnectedView(false);
 
         assertFalse( port.getBtnLed().isEnabled() );
         assertTrue( port.getBtnUpdate().isEnabled() );
@@ -62,10 +62,10 @@ class PortTest {
         JButton btnUpdate = port.getBtnUpdate();
 
         port.actionPerformed( new ActionEvent( btnUpdate, 0, "" ));
-        assertThat(port.getMessage(), equalTo("update") );
+        //assertThat(port.getMessage(), equalTo("update") );
 
         String[] newPorts = { "COM9", "COM8", "COM7"};
-        port.setNewComPorts(newPorts);
+        port.setPorts(newPorts);
 
         assertThat(port.getSelectedPort(), equalTo("COM9") );
 

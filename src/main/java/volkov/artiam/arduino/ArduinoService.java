@@ -45,7 +45,7 @@ public class ArduinoService {
     public boolean openPort() {
         boolean portIsOpened;
         try{
-            if(!arduino.portIsOpen() ) {
+            if(!arduino.isOpen() ) {
                 if(arduino.openPort() ) {
                     listenerDisconnected = new ListenerDisconnected(arduino);
                     portIsOpened = true;
@@ -65,10 +65,10 @@ public class ArduinoService {
         return portIsOpened;
     }
 
-    public boolean portIsOpen(){
+    public boolean isOpened(){
         boolean portIsOpen;
         try {
-            portIsOpen = arduino.portIsOpen();
+            portIsOpen = arduino.isOpen();
         } catch (PortIsOpenMistakeException e) {
             portIsOpen = false;
         }
@@ -79,8 +79,8 @@ public class ArduinoService {
     public boolean closePort()  {
         boolean portIsClose;
         try {
-            if(arduino.portIsOpen() ) {
-                portIsClose = arduino.portClose();
+            if(arduino.isOpen() ) {
+                portIsClose = arduino.closePort();
             } else {
                 throw new NoAvailableClosePort();
             }

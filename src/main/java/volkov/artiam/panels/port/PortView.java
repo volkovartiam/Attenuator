@@ -37,30 +37,30 @@ public class PortView extends JPanel {
 	// Для подключения/отключения COM-порта 						
 		btnConnect = new JButton("Подключение");					
 		btnConnect.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnConnect.setBounds(20, 11, 125, 23);						
+		btnConnect.setBounds(70, 11, 125, 23);
 		add(btnConnect);
 		
 	// кнопка и метка включения светодиода пульта
 		btnLed = new JButton("Контроль ВКЛ");
 		btnLed.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnLed.setBounds(550, 11, 125, 23);
+		btnLed.setBounds(515, 11, 125, 23);
 		add(btnLed);
 
 		lblLed.setOpaque(true);
 		lblLed.setBorder(BorderFactory.createLineBorder(Color.gray));
-		lblLed.setBounds(685, 12, 20, 20);
+		lblLed.setBounds(655, 12, 20, 20);
 		add(lblLed);
 		
 	// Combobox с доступными COM-портами
 		comboPortSelection =  new JComboBox<>(); 
 		comboPortSelection.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		comboPortSelection.setBounds(186, 12, 125, 20);
+		comboPortSelection.setBounds(230, 12, 125, 20);
 		add(comboPortSelection);
 		
 	// Кнока для обновления доступных COM-портов	
 		btnUpdate = new JButton("");
 		btnUpdate.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnUpdate.setBounds(320, 11, 30, 23);
+		btnUpdate.setBounds(380, 11, 30, 23);
 
 		try {
 	        Image image = ImageIO.read(getClass().getResourceAsStream("/images/update.png"));

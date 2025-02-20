@@ -5,25 +5,19 @@ import java.awt.*;
 
 public class PortDebugg extends JFrame {
 
-	Port port = new Port();
 	int xSize = 850;
 	int ySize = 100;
 
+	PortDebugg(Port port) {
 
-	PortDebugg() {
+		JPanel pnl = port.pnl;
+		add(pnl);
 
 		setTitle("Для отладки панели подключения/отключения COM-порта") ;
 		setMinimumSize(new Dimension(xSize, ySize));
-		add(port.pnl);
 
 		String [] arr = {"1", "2", "3"};
-		port.setNewComPorts(arr);
-
-		port.isConnected(true);
-		//port.isConnected(false);
-
-		String [] arr2 = {"5", "6", "7"};
-		port.setNewComPorts(arr);
+		port.setPorts(arr);
 
 		pack() ;
 		setLocationRelativeTo( null ) ;
@@ -33,12 +27,19 @@ public class PortDebugg extends JFrame {
 		setDefaultLookAndFeelDecorated(true);
 	}
 
+	PortDebugg(Port port, boolean isDisconnected){
+		port.setConnectedOrDisconnectedView(isDisconnected);
+		new PortDebugg(port);
+	}
 
 	public static void main ( String[] args ) {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				PortDebugg frame = new PortDebugg();
+				PortDebugg frame = new PortDebugg(new Port(), true);
 				frame.setVisible(true);
+
+				PortDebugg frame2 = new PortDebugg( new Port(), false);
+				frame2.setVisible(true);
 			}
 		});
 	}

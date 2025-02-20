@@ -13,6 +13,7 @@ public class ControlView extends JPanel {
 	JCheckBox chPositive = new JCheckBox("chPositive");
 	JCheckBox chNegative = new JCheckBox("chNegative");
 	JButton btnSetAtt = new JButton("btnSetAtt");
+	JCheckBox chSliderEnable = new JCheckBox("Slider");
 
 	JLabel lblAttVal = new JLabel("15.5");
 	JLabel lblAttTM = new JLabel("ТМ = 15.5");
@@ -29,7 +30,18 @@ public class ControlView extends JPanel {
 		chPositive.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		chPositive.setBounds(200, 11, 140, 23);
 		add(chPositive);
-		
+
+		chNegative = new JCheckBox("-3,3В");
+		chNegative.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		chNegative.setBounds(70, 11, 133, 23);
+		add(chNegative);
+
+		chSliderEnable = new JCheckBox("Slider");
+		chSliderEnable.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		chSliderEnable.setBounds(390, 11, 150, 23);
+		add(chSliderEnable);
+
+
 		lblAttVal.setOpaque(true);
 		//lblAttVal.setBorder(BorderFactory.createLineBorder(Color.gray));
 		lblAttVal.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -42,11 +54,6 @@ public class ControlView extends JPanel {
 		lblAttTM.setBounds(700, 50, 100, 20);
 		add(lblAttTM);
 
-		chNegative = new JCheckBox("-3,3В");
-		chNegative.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		chNegative.setBounds(70, 11, 133, 23);
-		add(chNegative);
-		
 		btnSetAtt = new JButton("Установить");
 		btnSetAtt.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnSetAtt.setBounds(510, 50, 140, 23);

@@ -21,7 +21,7 @@ public class Arduino  {
         portsNames = getAvailblePortsNames();
     }
 
-    boolean portIsOpen() throws PortIsOpenMistakeException {
+    boolean isOpen() throws PortIsOpenMistakeException {
         try {
             return port.isOpen();
         } catch (Exception e) {
@@ -30,7 +30,7 @@ public class Arduino  {
     }
 
 
-    boolean portClose() throws NoAvailableClosePort {
+    boolean closePort() throws NoAvailableClosePort {
         try {
             return port.closePort();
         } catch (Exception e) {

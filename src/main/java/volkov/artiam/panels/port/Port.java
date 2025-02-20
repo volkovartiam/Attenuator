@@ -2,8 +2,11 @@ package volkov.artiam.panels.port;
 
 import lombok.Getter;
 import lombok.Setter;
+import volkov.artiam.printers.IPrinter;
+import volkov.artiam.printers.NoPrinter;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -12,75 +15,85 @@ import java.awt.event.ItemListener;
 @Getter @Setter
 public class Port implements ActionListener, ItemListener {
 
-	public PortView pnl = new PortView();
-	PnlPortModel model = new PnlPortModel();
+	PortView pnl = new PortView();
+	JButton btnConnect = pnl.getBtnConnect();
+	JButton btnLed = pnl.getBtnLed();
+	JButton btnUpdate = pnl.getBtnUpdate();
+	private JComboBox<String> comboPortSelection  = pnl.getComboPortSelection();
+	private JLabel lblLed = pnl.getLblLed();
 
-	JButton btnConnect;
-	JButton btnLed;
-	JButton btnUpdate;
-	JComboBox<String> comboPortSelection;
-
-	String message = "";
 	String selectedPort = "";
 
+	private String ledOn = "Контроль ВКЛ";
+	private String ledOff = "Контроль ОТКЛ";
+	private String connect = "Подключение";
+	private String disconnect = "Отключение" ;
+
+	private boolean ledViewOn = false;
+	private IPrinter printer = new NoPrinter();
+
 	public Port() {
-
-		btnConnect = pnl.getBtnConnect();
-		btnLed = pnl.getBtnLed();
-		btnUpdate = pnl.getBtnUpdate();
-		comboPortSelection = pnl.getComboPortSelection();
-		JLabel lblLed = pnl.getLblLed();
-
-		model.setLblLedControl(lblLed);
-		model.setBtnConnect(btnConnect);
-		model.setBtnLed(btnLed);
-		model.setBtnUpdate(btnUpdate);
-		model.setComboPortSelection(comboPortSelection);
-		model.init();
 
 		btnLed.addActionListener(this);
 		btnConnect.addActionListener(this);
 		btnUpdate.addActionListener(this);
 		comboPortSelection.addItemListener(this);
+
+		btnConnect.setEnabled(true);
+		btnLed.setEnabled(true);
+		btnUpdate.setEnabled(true);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		if(e.getSource() == btnLed){
-			model.setLed();
+			ledViewOn = !ledViewOn;
+			if(ledViewOn){
+				lblLed.setBackground(Color.GREEN);
+				btnLed.setText(ledOff);
+
+				printer.print(ledOn);
+			} else {
+				lblLed.setBackground(Color.LIGHT_GRAY);
+				btnLed.setText(ledOn);
+
+				printer.print(ledOff);
+			}
 		}
 
 		if(e.getSource() == btnConnect ){
-			tryToConnect();
+			printer.print("Connect");
 		}
 
 		if(e.getSource() == btnUpdate){
-			update();
+			printer.print("Update");
 		}
 	}
 
-	public void tryToConnect(){
-		message = "tryToConnect";
-		print(message);
+
+
+	public void setConnectedOrDisconnectedView(boolean setConnectedView){
+		if(setConnectedView){
+			btnConnect.setText(disconnect);
+			btnUpdate.setEnabled(false);
+			comboPortSelection.setEnabled(false);
+			btnLed.setEnabled(true);
+		} else {
+			btnConnect.setText(connect);
+			btnUpdate.setEnabled(true);
+			comboPortSelection.setEnabled(true);
+			btnLed.setEnabled(false);
+		}
+
 	}
 
-	public void update() {
-		message = "update";
-		print(message);
-	}
 
-	public void isConnected(boolean isConnected){
-		model.isConnected(isConnected);
-	}
-
-	public void isDisconnected(boolean isDisconnected){
-		model.isDisconnected(isDisconnected);
-	}
-
-
-	public void setNewComPorts(String[] args){
-		model.setNewComPorts(args);
+	void setPorts(String[] ports){
+		comboPortSelection.removeAllItems();
+		for (String port : ports) {
+			comboPortSelection.addItem(port);
+		}
 	}
 
 	@Override
@@ -88,14 +101,10 @@ public class Port implements ActionListener, ItemListener {
 		if(e.getSource().equals( comboPortSelection ) ) {
 			if (e.getStateChange() == ItemEvent.SELECTED) {
 				selectedPort = (String)comboPortSelection.getSelectedItem();
-				//print(selectedPort);
+				printer.print(selectedPort);
 			}
 		}
 	}
 
-
-	private void print(String str){
-	//	System.out.println(str);
-	}
 
 }

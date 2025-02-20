@@ -2,6 +2,9 @@ package volkov.artiam.panels.control;
 
 import lombok.Getter;
 import lombok.Setter;
+import volkov.artiam.printers.ConsolePrinter;
+import volkov.artiam.printers.IPrinter;
+import volkov.artiam.printers.NoPrinter;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -17,11 +20,15 @@ public class Control implements ActionListener, ChangeListener, ItemListener {
 	ControlView pnl = new ControlView();
 	JCheckBox chPositive = pnl.chPositive;
 	JCheckBox chNegative = pnl.chNegative;
+	JCheckBox chSliderEnable = pnl.chSliderEnable;
 	JButton btnSetAtt = pnl.btnSetAtt;
 
-	JLabel lblAttVal = pnl.lblAttVal;
+	private JLabel lblAttVal = pnl.lblAttVal;
 	JLabel lblAttTM = pnl.lblAttTM;
 	JSlider slider = pnl.slider;
+
+	double attValue = 31.5;
+	private IPrinter printer = new NoPrinter();
 
 	public Control() {
 
@@ -29,7 +36,7 @@ public class Control implements ActionListener, ChangeListener, ItemListener {
 		chNegative.addItemListener(this);
 		btnSetAtt.addActionListener(this);
 
-		lblAttVal.setText("31.5");
+		lblAttVal.setText("" + attValue);
 
 		lblAttTM.setText("TM = ");
 
@@ -40,22 +47,31 @@ public class Control implements ActionListener, ChangeListener, ItemListener {
 
 	}
 
+	public void setLblAttVal(){
+		lblAttVal.setText("" + attValue);
+	}
+
+	public void setEnabled(boolean enabled){
+		chPositive.setEnabled(enabled);
+		chNegative.setEnabled(enabled);
+		chSliderEnable.setEnabled(enabled);
+		btnSetAtt.setEnabled(enabled);
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String actionCommand = e.getActionCommand();
+		//String actionCommand = e.getActionCommand();
 
 		if(e.getSource() == btnSetAtt) {
-			System.out.println("Установить значение " + lblAttVal.getText());
+			printer.print("Установить значение " + lblAttVal.getText() );
 		}
-		
-
-
 	}
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		lblAttVal.setText("" + slider.getValue() * 0.5 );
+		attValue = slider.getValue() * 0.5;
+		lblAttVal.setText("" + attValue);
+		printer.print("Значение аттенюации = " + attValue);
 	}
 
 	@Override
@@ -63,20 +79,28 @@ public class Control implements ActionListener, ChangeListener, ItemListener {
 		if(e.getSource().equals(chPositive) ) {
 
 			if(chPositive.isSelected()){
-				System.out.println("chPositive + HIGH");
+				printer.print("chPositive + HIGH");
 			} else {
-				System.out.println("chPositive + LOW");
+				printer.print("chPositive + LOW");
 			}
-
 		}
+
 		if(e.getSource().equals(chNegative) ) {
-
 			if(chNegative.isSelected()){
-				System.out.println("chNegative + HIGH");
+				printer.print("chNegative + HIGH");
 			} else {
-				System.out.println("chNegative + LOW");
+				printer.print("chNegative + LOW");
 			}
-
 		}
+
+		if(e.getSource().equals(chSliderEnable) ) {
+
+			if(chPositive.isSelected()){
+				printer.print("chSliderEnable + HIGH");
+			} else {
+				printer.print("chSliderEnable + LOW");
+			}
+		}
+
 	}
 }
