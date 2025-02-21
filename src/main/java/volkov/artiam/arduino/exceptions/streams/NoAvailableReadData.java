@@ -1,4 +1,4 @@
-package volkov.artiam.arduino.exceptions;
+package volkov.artiam.arduino.exceptions.streams;
 
 import volkov.artiam.datas.Messages;
 
@@ -6,8 +6,8 @@ import javax.swing.*;
 
 public class NoAvailableReadData extends Exception {
 
-    public NoAvailableReadData(){
+    public NoAvailableReadData(String string){
         String message = Messages.NO_AVAILABLE_READ_DATA.getMessage();
-        JOptionPane.showMessageDialog(null, message);
+        JOptionPane.showMessageDialog(null, message + "\n" + string);
     }
 }

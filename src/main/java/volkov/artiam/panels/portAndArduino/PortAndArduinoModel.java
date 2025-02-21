@@ -3,7 +3,7 @@ package volkov.artiam.panels.portAndArduino;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import volkov.artiam.arduino.ArduinoSingleton;
+import volkov.artiam.arduino.ArduinoControl;
 import volkov.artiam.datas.COMMANDS;
 import volkov.artiam.datas.TEXTs;
 import volkov.artiam.panels.port.PortView;
@@ -18,7 +18,7 @@ public class PortAndArduinoModel {
 
 	PortView panel = new PortView();
 
-	private ArduinoSingleton arduinoAccess = ArduinoSingleton.getInstance();
+	private ArduinoControl arduinoAccess = new ArduinoControl();
 	private PortDataReader portDataReader = new PortDataReader(arduinoAccess, this);
 	private PortDisconnectChecker portDisconnectChecker = new PortDisconnectChecker(arduinoAccess, this);
 
@@ -34,7 +34,7 @@ public class PortAndArduinoModel {
 
 	void init(){
 		btnLed.setEnabled(false);
-		setNewComPorts( arduinoAccess.getAvailblePortsNames() );
+		setNewComPorts( arduinoAccess.getPortsNames() );
 		selectedPort = (String) comboPortSelection.getSelectedItem();
 	}
 
@@ -44,7 +44,7 @@ public class PortAndArduinoModel {
 			boolean isParamSet = arduinoAccess.setPortByName(selectedPort);
 			if( isParamSet ){
 				arduinoAccess.openPort();
-				portIsOpen = arduinoAccess.portIsOpen();
+				portIsOpen = arduinoAccess.isOpen();
 
 				if( portIsOpen ){
 					portDataReader.startThread();
@@ -70,12 +70,12 @@ public class PortAndArduinoModel {
 
 	void setLedCommand( String btnText) {
 		if(btnText.equals( TEXTs.LED_ON.getText() )) {
-			arduinoAccess.sendData(COMMANDS.C0_LED_ON.getCommand() );
+			arduinoAccess.sendCommand(COMMANDS.C0_LED_ON.getCommand() );
 
 			lblLedControl.setBackground(Color.GREEN);
 			btnLed.setText( TEXTs.LED_OFF.getText() );
 		} else if(btnText.equals( TEXTs.LED_OFF.getText()) ) {
-			arduinoAccess.sendData(COMMANDS.C1_LED_OFF.getCommand());
+			arduinoAccess.sendCommand(COMMANDS.C1_LED_OFF.getCommand());
 
 			lblLedControl.setBackground(Color.LIGHT_GRAY);
 			btnLed.setText( TEXTs.LED_ON.getText() );
@@ -83,7 +83,7 @@ public class PortAndArduinoModel {
 	}
 
 	void update(){
-		setNewComPorts( arduinoAccess.getAvailblePortsNames() );
+		setNewComPorts( arduinoAccess.getPortsNames() );
 	}
 
 

@@ -1,16 +1,16 @@
 package volkov.artiam.panels.portAndArduino;
 
-import volkov.artiam.arduino.ArduinoSingleton;
+import volkov.artiam.arduino.ArduinoControl;
 import volkov.artiam.datas.Additions;
 import volkov.artiam.datas.Delays;
 
 public class PortDisconnectChecker implements Runnable{
 
-    ArduinoSingleton arduinoAccess;
+    ArduinoControl arduinoAccess;
     PortAndArduinoModel port;
     Thread thread;
 
-    PortDisconnectChecker(ArduinoSingleton arduinoAccess, PortAndArduinoModel port){
+    PortDisconnectChecker(ArduinoControl arduinoAccess, PortAndArduinoModel port){
         this.arduinoAccess = arduinoAccess;
         this.port = port;
     }
@@ -19,6 +19,7 @@ public class PortDisconnectChecker implements Runnable{
     public void run() {
         while (true){
             Additions.waitMilliseconds(Delays.PORT_CHEKER_DELAY.getDelay());
+            /*
             if( arduinoAccess.isDisconnected() ){
                 port.isDisconnected();
                 this.stopThread();
@@ -27,6 +28,7 @@ public class PortDisconnectChecker implements Runnable{
                 this.stopThread();
                 break;
             }
+             */
         }
     }
 

@@ -1,4 +1,4 @@
-package volkov.artiam.arduino.exceptions;
+package volkov.artiam.arduino.exceptions.ports;
 
 import volkov.artiam.datas.Messages;
 

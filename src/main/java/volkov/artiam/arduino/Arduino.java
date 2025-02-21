@@ -4,7 +4,10 @@ import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortInvalidPortException;
 import lombok.Getter;
 import lombok.Setter;
-import volkov.artiam.arduino.exceptions.*;
+import volkov.artiam.arduino.exceptions.ports.NoAvailableClosePort;
+import volkov.artiam.arduino.exceptions.ports.NoAvailableOpenPort;
+import volkov.artiam.arduino.exceptions.ports.NoPortsWithThatNameException;
+import volkov.artiam.arduino.exceptions.ports.ÑheckIsOpenPortException;
 
 import java.util.Arrays;
 
@@ -16,16 +19,29 @@ public class Arduino  {
     private String portName;
     private SerialPort[] ports;
     private String[] portsNames;
+    private String[] portsNamesByDefault = {""};
 
-    public Arduino() {
-        portsNames = getAvailblePortsNames();
+    boolean portParametersIsSet = false;
+
+    private static Arduino instance;
+
+    public static Arduino getInstance(){
+        if(instance == null) {
+            instance = new Arduino();
+        }
+        return instance;
     }
 
-    boolean isOpen() throws PortIsOpenMistakeException {
+    private Arduino() {
+        portsNames = getPortsNames();
+    }
+
+
+    boolean isOpen() throws ÑheckIsOpenPortException {
         try {
             return port.isOpen();
         } catch (Exception e) {
-            throw new PortIsOpenMistakeException();
+            throw new ÑheckIsOpenPortException();
         }
     }
 
@@ -38,6 +54,7 @@ public class Arduino  {
         }
     }
 
+
     boolean openPort() throws NoAvailableOpenPort {
         try {
             return port.openPort();
@@ -47,24 +64,26 @@ public class Arduino  {
     }
 
 
-    boolean setPortByName(String portName) throws NoPortsWithThatNameException{
-        boolean portParamsSetted = false;
+    boolean setPortByName(String portName) {
         try {
             if( checkName(portName) ) {
                 port = SerialPort.getCommPort(portName);
                 port.setBaudRate(baudRate);
-                portParamsSetted = true;
+                portParametersIsSet = true;
             } else {
                 throw new NoPortsWithThatNameException();
             }
         } catch (SerialPortInvalidPortException e) {
-            portParamsSetted = false;
+            portParametersIsSet = false;
+        } catch (NoPortsWithThatNameException e) {
+            portParametersIsSet = false;
         }
-        return portParamsSetted;
+        return portParametersIsSet;
     }
 
+
     // Ìàññèâ äîñòóïíûõ èìåí COM-ïîðòîâ
-    public String[] getAvailblePortsNames() {
+    public String[] getPortsNames() {
         try {
             ports = SerialPort.getCommPorts();
             portsNames = Arrays.stream(Arrays.stream(ports)
@@ -80,8 +99,7 @@ public class Arduino  {
                 throw new NullPointerException();
             }
         } catch (NullPointerException e ) {
-            portsNames = new String[1];
-            portsNames[0] = "";
+            portsNames = portsNamesByDefault;
         }
         return portsNames;
     }

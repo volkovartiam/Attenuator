@@ -2,7 +2,7 @@ package volkov.artiam.panels;
 
 import lombok.Getter;
 import lombok.Setter;
-import volkov.artiam.arduino.ArduinoSingleton;
+import volkov.artiam.arduino.ArduinoControl;
 import volkov.artiam.datas.Additions;
 import volkov.artiam.datas.Delays;
 import volkov.artiam.datas.TEXTs;
@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 @Getter
 public class DisconnectChecker implements Runnable, ActionListener {
 
-    private ArduinoSingleton arduinoAccess;
+    private ArduinoControl arduinoAccess;
     @Setter
     JButton btnConnect; // = new JButton();
     private MainPanelView panel;
@@ -26,13 +26,13 @@ public class DisconnectChecker implements Runnable, ActionListener {
 
 
     void init(MainPanelView panel){
-        this.arduinoAccess = ArduinoSingleton.getInstance();
+        //this.arduinoAccess = ArduinoControl.getInstance();
         this.panel = panel;
         this.btnConnect.addActionListener(this);
     }
 
     @Override
-    public void run() {
+    public void run() { /*
         while (true){
             Additions.waitMilliseconds(Delays.PORT_CHEKER_DELAY.getDelay());
             if( arduinoAccess.isDisconnected() || !arduinoAccess.portIsOpen() ){
@@ -40,7 +40,7 @@ public class DisconnectChecker implements Runnable, ActionListener {
                 this.stopThread();
                 break;
             }
-        }
+        }*/
     }
 
     public void startThread(){

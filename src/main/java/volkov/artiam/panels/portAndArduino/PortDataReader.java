@@ -1,16 +1,16 @@
 package volkov.artiam.panels.portAndArduino;
 
-import volkov.artiam.arduino.ArduinoSingleton;
+import volkov.artiam.arduino.ArduinoControl;
 import volkov.artiam.datas.Additions;
 import volkov.artiam.datas.Delays;
 
 public class PortDataReader implements Runnable{
 
-    ArduinoSingleton arduinoAccess;
+    ArduinoControl arduinoAccess;
     PortAndArduinoModel port;
     Thread thread;
 
-    PortDataReader(ArduinoSingleton arduinoService, PortAndArduinoModel port){
+    PortDataReader(ArduinoControl arduinoService, PortAndArduinoModel port){
         this.arduinoAccess = arduinoService;
         this.port = port;
     }

@@ -1,12 +1,12 @@
-package volkov.artiam.arduino.exceptions;
+package volkov.artiam.arduino.exceptions.ports;
 
 import volkov.artiam.datas.Messages;
 
 import javax.swing.*;
 
-public class PortIsOpenMistakeException extends Exception {
+public class ÑheckIsOpenPortException extends Exception {
 
-    public PortIsOpenMistakeException(){
+    public ÑheckIsOpenPortException(){
         String message = Messages.PORT_IS_OPEN_MISTAKE.getMessage();
         JOptionPane.showMessageDialog(null, message);
     }

@@ -2,15 +2,14 @@ package volkov.artiam.arduino;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import volkov.artiam.arduino.exceptions.streams.NoAvailableReadData;
 import volkov.artiam.arduino.exceptions.streams.NoAvailableReadWriteData;
+import volkov.artiam.arduino.exceptions.streams.NoAvailableWriteData;
+import volkov.artiam.arduino.exceptions.PortIsJustOpenException;
 import volkov.artiam.arduino.exceptions.ports.NoAvailableClosePort;
 import volkov.artiam.arduino.exceptions.ports.NoAvailableOpenPort;
 import volkov.artiam.arduino.exceptions.ports.ÑheckIsOpenPortException;
-import volkov.artiam.arduino.exceptions.streams.NoAvailableWriteData;
-import volkov.artiam.printers.ConsolePrinter;
-import volkov.artiam.printers.IPrinter;
+import volkov.artiam.arduino.listeners.ListenerDisconnected;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -18,80 +17,87 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 
 @Setter @Getter
-public class ArduinoService {
+public class ArduinoDisconnecter {
 
-    Arduino arduino;
+    private Arduino arduino = Arduino.getInstance();
     private static PrintWriter outPut;
     private static BufferedInputStream inPut;
 
-    private boolean isInitReaderWriter = false;
-    IPrinter printer = new ConsolePrinter();
+    private ListenerDisconnected listenerDisconnected = new ListenerDisconnected();
 
-    ArduinoService(){
-        arduino = Arduino.getInstance();
-    }
-
-    boolean initReaderWriter() throws NoAvailableReadWriteData {
+    void initOutputAndInput() throws NoAvailableReadWriteData {
         try {
             outPut = new PrintWriter(arduino.port.getOutputStream(), true, StandardCharsets.UTF_8);
             inPut = new BufferedInputStream( arduino.port.getInputStream() );
-            isInitReaderWriter = true;
         }catch (Exception e){
             throw new NoAvailableReadWriteData();
         }
-        return isInitReaderWriter;
     }
 
-    public boolean setPortByName(String name){
-        return arduino.setPortByName(name);
-    }
-
-    public String[] getPortsNames(){
+    public String[] getAvailablePortsNames() {
         return arduino.getPortsNames();
     }
 
-    public boolean isOpen(){
-        boolean isOpen;
-        try {
-            isOpen = arduino.isOpen();
-        } catch (ÑheckIsOpenPortException e) {
-            isOpen = false;
-        }
-        return isOpen;
-    }
-
+    public boolean setPortByName(String portName) {
+        return arduino.setPortByName(portName);
+   }
 
     public boolean openPort() {
-        boolean isOpen;
+        boolean portIsOpened;
         try{
-            isOpen = arduino.openPort();
+            if(!arduino.isOpen() ) {
+                if(arduino.openPort() ) {
+                    listenerDisconnected = new ListenerDisconnected(arduino);
+                    portIsOpened = true;
+                } else {
+                    throw new NoAvailableOpenPort();
+                }
+            } else {
+                throw new PortIsJustOpenException();
+            }
+        } catch (ÑheckIsOpenPortException e){
+            portIsOpened = false;
         } catch (NoAvailableOpenPort e){
-            isOpen = false;
+            portIsOpened = false;
+        } catch (PortIsJustOpenException e){
+            portIsOpened = false;
         }
-        return isOpen;
+        return portIsOpened;
+    }
+
+    public boolean isOpened(){
+        boolean portIsOpen;
+        try {
+            portIsOpen = arduino.isOpen();
+        } catch (ÑheckIsOpenPortException e) {
+            portIsOpen = false;
+        }
+        return portIsOpen;
     }
 
 
     public boolean closePort()  {
-        boolean isClosed;
+        boolean portIsClose;
         try {
-            if(isOpen() ) {
-                isClosed = arduino.closePort();
+            if(arduino.isOpen() ) {
+                portIsClose = arduino.closePort();
             } else {
                 throw new NoAvailableClosePort();
             }
+        }catch (ÑheckIsOpenPortException e){
+            portIsClose = false;
         }catch (NoAvailableClosePort e){
-            isClosed = false;
+            portIsClose = false;
         }
-        return isClosed;
+        return portIsClose;
     }
 
 
-    public void sendCommand(String command) throws NoAvailableWriteData {
+    public void sendData(String command) throws NoAvailableWriteData {
         try {
             if( !command.isEmpty() && !command.isBlank() ){
                 outPut.println(command) ;
-                printer.print(command);
+                System.out.println(command);
                 outPut.flush();
             }
         } catch (Exception e){
@@ -102,7 +108,7 @@ public class ArduinoService {
 
     public String readData() throws NoAvailableReadData {
         StringBuilder line = new StringBuilder();
-        String data = "";
+        String data;
         try{
             while(inPut.available() > 0 ){
                 int value = inPut.read();
@@ -110,12 +116,14 @@ public class ArduinoService {
                 line.append(ascii);
             }
             data = line.toString();
-            printer.print(data);
         }catch (IOException e ){
-            throw new NoAvailableReadData(data);
+            data = "";
         }
         return data;
     }
 
+    public boolean isDisconnected(){
+        return listenerDisconnected.isDisconnected();
+    }
 
 }

@@ -4,15 +4,16 @@ import volkov.artiam.arduino.exceptions.streams.NoAvailableReadData;
 import volkov.artiam.arduino.exceptions.streams.NoAvailableReadWriteData;
 import volkov.artiam.arduino.exceptions.streams.NoAvailableWriteData;
 import volkov.artiam.datas.Additions;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class ArduinoServiceDebug {
+public class ArduinoControlDebug {
 
-    public static void main(String[] args ) throws NoAvailableReadWriteData, NoAvailableWriteData, NoAvailableReadData {
+    public static void main(String[] args ) throws IOException, NoAvailableWriteData, NoAvailableReadData {
 
-        ArduinoService arduino = new ArduinoService();
+        ArduinoControl arduino = new ArduinoControl();
 
         String[] portNames = arduino.getPortsNames();
         System.out.println( "Список доступных портов: " +  new ArrayList<>(Arrays.asList(portNames) ));
@@ -24,17 +25,15 @@ public class ArduinoServiceDebug {
         System.out.println( "Попытка открыть порт повторно: " + arduino.openPort() );
 
         System.out.println( "Порт открыт: " + arduino.isOpen() );
-        System.out.println( "Инициализация чтения/записи: " + arduino.initReaderWriter() );
 
-        Additions.waitMilliseconds();
 
-        int number = 5;
-        for (int i = 0; i < number; i++){
-            arduino.sendCommand("LED;ON;");
-            Additions.waitMilliseconds();
-            System.out.println(arduino.readData() );
+        try {
+            System.out.println("Time to sleep");
+            Thread.sleep(5000);
+            System.out.println("Time to wake up");
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
         }
-
 
     }
 }

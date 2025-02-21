@@ -2,9 +2,9 @@ package volkov.artiam.arduino;
 
 import lombok.Getter;
 import lombok.Setter;
-import volkov.artiam.arduino.exceptions.NoAvailableReadData;
-import volkov.artiam.arduino.exceptions.NoAvailableReadWriteData;
-import volkov.artiam.arduino.exceptions.NoAvailableWriteData;
+import volkov.artiam.arduino.exceptions.streams.NoAvailableReadData;
+import volkov.artiam.arduino.exceptions.streams.NoAvailableReadWriteData;
+import volkov.artiam.arduino.exceptions.streams.NoAvailableWriteData;
 import volkov.artiam.datas.Additions;
 import volkov.artiam.datas.Delays;
 
@@ -12,24 +12,24 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 @Setter @Getter
-public class ArduinoSingleton implements PrintImpl {
+public class ArduinoSingletonCopy implements PrintImpl {
 
     private ArduinoService arduinoService ;
-    private static ArduinoSingleton instance;
+    private static ArduinoSingletonCopy instance;
 
     private PropertyChangeSupport supportRx;
     private String data = "" ;
     private String newCommand = "" ;
 
 
-    public ArduinoSingleton(){
+    public ArduinoSingletonCopy(){
         arduinoService = new ArduinoService();
         supportRx = new PropertyChangeSupport(this);
     }
 
-    public static ArduinoSingleton getInstance(){
+    public static ArduinoSingletonCopy getInstance(){
         if(instance == null) {
-            instance = new ArduinoSingleton();
+            instance = new ArduinoSingletonCopy();
         }
         return instance;
     }
@@ -42,13 +42,13 @@ public class ArduinoSingleton implements PrintImpl {
         arduinoService.openPort();
         Additions.waitMilliseconds(Delays.AFTER_CONNECT_DELAY.getDelay());
         try {
-            arduinoService.initOutputAndInput();
+            arduinoService.initReaderWriter();
         }catch (NoAvailableReadWriteData e){
         }
     }
 
     public boolean portIsOpen(){
-        return arduinoService.isOpened();
+        return arduinoService.isOpen();
     }
 
     public void closePort() {
@@ -59,7 +59,7 @@ public class ArduinoSingleton implements PrintImpl {
     public void sendData(String command) {
         try {
             if( !command.isEmpty() && !command.isBlank() ){
-                arduinoService.sendData(command);
+                arduinoService.sendCommand(command);
                 setNewCommand(command);
                 Additions.waitMilliseconds(Delays.SEND_DATA_DELAY.getDelay());
             }
@@ -69,7 +69,7 @@ public class ArduinoSingleton implements PrintImpl {
 
     @Override
     public boolean isReady() {
-        return arduinoService.isOpened();
+        return arduinoService.isOpen();
     }
 
 
@@ -85,13 +85,15 @@ public class ArduinoSingleton implements PrintImpl {
     }
 
     public boolean isDisconnected(){
-        return arduinoService.isDisconnected();
+        //return arduinoService.isDisconnected();
+        return false;
     }
 
+    /*
     public String[] getAvailblePortsNames() {
         return arduinoService.getAvailablePortsNames();
     }
-
+    */
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
         supportRx.addPropertyChangeListener(pcl);

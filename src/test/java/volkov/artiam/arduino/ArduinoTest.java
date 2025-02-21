@@ -5,7 +5,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import volkov.artiam.arduino.exceptions.NoPortsWithThatNameException;
+import volkov.artiam.arduino.exceptions.ports.NoPortsWithThatNameException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -16,7 +16,7 @@ class ArduinoTest {
 
     @BeforeEach
     void setUp() {
-        arduino = new Arduino();
+        arduino = Arduino.getInstance();
         arduino.setPorts(null);
     }
 
@@ -28,7 +28,7 @@ class ArduinoTest {
 
     @Test
     void getAvailblePortsNamesWithPortsByDefault() {
-        String[] portNames = arduino.getAvailblePortsNames();
+        String[] portNames = arduino.getPortsNames();
         assertThat(portNames[0], equalTo("") );
         //(arduino.getMessage(), equalTo("Нет доступных COM-портов" ) );
     }
@@ -43,7 +43,7 @@ class ArduinoTest {
         SerialPort[] sPorts = {port1};
         arduino.setPorts(sPorts);
 
-        String[] portNames = arduino.getAvailblePortsNames();
+        String[] portNames = arduino.getPortsNames();
         assertThat(portNames[0], equalTo("COM5") );
     }
 
@@ -58,7 +58,7 @@ class ArduinoTest {
         SerialPort[] sPorts = {port1, port2};
         arduino.setPorts(sPorts);
 
-        String[] portNames = arduino.getAvailblePortsNames();
+        String[] portNames = arduino.getPortsNames();
         assertThat(portNames[0], equalTo("COM5") );
         assertThat(portNames[1], equalTo("COM6") );
     }
@@ -95,7 +95,7 @@ class ArduinoTest {
 
         SerialPort[] sPorts = {port1, port2};
         arduino.setPorts(sPorts);
-        arduino.getAvailblePortsNames();
+        arduino.getPortsNames();
 
         arduino.setPortByName("COM");
         //assertThat(arduino.getMessage(), equalTo("Портов с таким именем нет") );
@@ -111,7 +111,7 @@ class ArduinoTest {
 
         SerialPort[] sPorts = {port1, port2};
         arduino.setPorts(sPorts);
-        arduino.getAvailblePortsNames();
+        arduino.getPortsNames();
 
         arduino.setPortByName("COM5");
         //assertThat(arduino.getMessage(), equalTo("") );
