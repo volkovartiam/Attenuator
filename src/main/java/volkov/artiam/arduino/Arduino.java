@@ -32,12 +32,12 @@ public class Arduino  {
         return instance;
     }
 
-    private Arduino() {
+    Arduino() {
         portsNames = getPortsNames();
     }
 
 
-    boolean isOpen() throws ÑheckIsOpenPortException {
+    public boolean isOpen() throws ÑheckIsOpenPortException {
         try {
             return port.isOpen();
         } catch (Exception e) {
@@ -46,7 +46,7 @@ public class Arduino  {
     }
 
 
-    boolean closePort() throws NoAvailableClosePort {
+    public boolean closePort() throws NoAvailableClosePort {
         try {
             return port.closePort();
         } catch (Exception e) {
@@ -55,7 +55,7 @@ public class Arduino  {
     }
 
 
-    boolean openPort() throws NoAvailableOpenPort {
+    public boolean openPort() throws NoAvailableOpenPort {
         try {
             return port.openPort();
         } catch (Exception e) {
@@ -64,7 +64,7 @@ public class Arduino  {
     }
 
 
-    boolean setPortByName(String portName) {
+    public boolean setPortByName(String portName) {
         try {
             if( checkName(portName) ) {
                 port = SerialPort.getCommPort(portName);

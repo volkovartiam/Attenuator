@@ -1,6 +1,7 @@
 package volkov.artiam.arduino;
 
 import volkov.artiam.arduino.exceptions.ports.NoAvailableClosePort;
+import volkov.artiam.arduino.exceptions.ports.NoAvailableOpenPort;
 import volkov.artiam.arduino.exceptions.ports.NoPortsWithThatNameException;
 import volkov.artiam.arduino.exceptions.ports.СheckIsOpenPortException;
 
@@ -9,7 +10,7 @@ import java.util.Arrays;
 
 public class ArduinoDebug {
 
-    public static void main(String[] args ) throws СheckIsOpenPortException, NoPortsWithThatNameException, NoAvailableClosePort {
+    public static void main(String[] args ) throws СheckIsOpenPortException, NoPortsWithThatNameException, NoAvailableClosePort, NoAvailableOpenPort {
 
         Arduino arduino = Arduino.getInstance();
 
@@ -19,8 +20,8 @@ public class ArduinoDebug {
         arduino.setPortByName("COM5");
 
         System.out.println( "Порт открыт: " + arduino.isOpen() );
-        System.out.println( "Попытка открыть порт: " + arduino.port.openPort() );
-        System.out.println( "Попытка открыть порт повторно: " + arduino.port.openPort() );
+        System.out.println( "Попытка открыть порт: " + arduino.openPort() );
+        System.out.println( "Попытка открыть порт повторно: " + arduino.openPort() );
 
         System.out.println( "Порт открыт: " + arduino.isOpen() );
 

@@ -1,13 +1,11 @@
 package volkov.artiam.arduino;
 
+import com.fazecast.jSerialComm.SerialPortDataListener;
 import lombok.Getter;
 import lombok.Setter;
 
 import volkov.artiam.arduino.exceptions.streams.NoAvailableReadData;
 import volkov.artiam.arduino.exceptions.streams.NoAvailableReadWriteData;
-import volkov.artiam.arduino.exceptions.ports.NoAvailableClosePort;
-import volkov.artiam.arduino.exceptions.ports.NoAvailableOpenPort;
-import volkov.artiam.arduino.exceptions.ports.ÑheckIsOpenPortException;
 import volkov.artiam.arduino.exceptions.streams.NoAvailableWriteData;
 import volkov.artiam.printers.ConsolePrinter;
 import volkov.artiam.printers.IPrinter;
@@ -18,72 +16,38 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 
 @Setter @Getter
-public class ArduinoService {
+public class ArduinoService extends Arduino{
 
-    Arduino arduino;
     private static PrintWriter outPut;
     private static BufferedInputStream inPut;
 
-    private boolean isInitReaderWriter = false;
-    IPrinter printer = new ConsolePrinter();
+    private IPrinter printer = new ConsolePrinter();
 
-    ArduinoService(){
-        arduino = Arduino.getInstance();
+    private static ArduinoService instance;
+
+
+    public static ArduinoService getInstance(){
+        if(instance == null) {
+            instance = new ArduinoService();
+        }
+        return instance;
+    }
+
+    void initListener(SerialPortDataListener defaultSerialPortDataListener) {
+        port.addDataListener(defaultSerialPortDataListener);
     }
 
     boolean initReaderWriter() throws NoAvailableReadWriteData {
+        boolean isInitReaderWriter = false;
         try {
-            outPut = new PrintWriter(arduino.port.getOutputStream(), true, StandardCharsets.UTF_8);
-            inPut = new BufferedInputStream( arduino.port.getInputStream() );
+            outPut = new PrintWriter(port.getOutputStream(), true, StandardCharsets.UTF_8);
+            inPut = new BufferedInputStream(port.getInputStream() );
             isInitReaderWriter = true;
         }catch (Exception e){
+            isInitReaderWriter = false;
             throw new NoAvailableReadWriteData();
         }
         return isInitReaderWriter;
-    }
-
-    public boolean setPortByName(String name){
-        return arduino.setPortByName(name);
-    }
-
-    public String[] getPortsNames(){
-        return arduino.getPortsNames();
-    }
-
-    public boolean isOpen(){
-        boolean isOpen;
-        try {
-            isOpen = arduino.isOpen();
-        } catch (ÑheckIsOpenPortException e) {
-            isOpen = false;
-        }
-        return isOpen;
-    }
-
-
-    public boolean openPort() {
-        boolean isOpen;
-        try{
-            isOpen = arduino.openPort();
-        } catch (NoAvailableOpenPort e){
-            isOpen = false;
-        }
-        return isOpen;
-    }
-
-
-    public boolean closePort()  {
-        boolean isClosed;
-        try {
-            if(isOpen() ) {
-                isClosed = arduino.closePort();
-            } else {
-                throw new NoAvailableClosePort();
-            }
-        }catch (NoAvailableClosePort e){
-            isClosed = false;
-        }
-        return isClosed;
     }
 
 

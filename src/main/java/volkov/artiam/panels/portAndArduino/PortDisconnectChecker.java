@@ -1,16 +1,16 @@
 package volkov.artiam.panels.portAndArduino;
 
-import volkov.artiam.arduino.ArduinoControl;
+import volkov.artiam.arduino.ArduinoService;
 import volkov.artiam.datas.Additions;
 import volkov.artiam.datas.Delays;
 
 public class PortDisconnectChecker implements Runnable{
 
-    ArduinoControl arduinoAccess;
+    ArduinoService arduinoAccess;
     PortAndArduinoModel port;
     Thread thread;
 
-    PortDisconnectChecker(ArduinoControl arduinoAccess, PortAndArduinoModel port){
+    PortDisconnectChecker(ArduinoService arduinoAccess, PortAndArduinoModel port){
         this.arduinoAccess = arduinoAccess;
         this.port = port;
     }

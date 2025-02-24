@@ -3,7 +3,11 @@ package volkov.artiam.panels.portAndArduino;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import volkov.artiam.arduino.ArduinoControl;
+import volkov.artiam.arduino.ArduinoService;
+import volkov.artiam.arduino.exceptions.ports.NoAvailableClosePort;
+import volkov.artiam.arduino.exceptions.ports.NoAvailableOpenPort;
+import volkov.artiam.arduino.exceptions.ports.ÑheckIsOpenPortException;
+import volkov.artiam.arduino.exceptions.streams.NoAvailableWriteData;
 import volkov.artiam.datas.COMMANDS;
 import volkov.artiam.datas.TEXTs;
 import volkov.artiam.panels.port.PortView;
@@ -18,7 +22,7 @@ public class PortAndArduinoModel {
 
 	PortView panel = new PortView();
 
-	private ArduinoControl arduinoAccess = new ArduinoControl();
+	private ArduinoService arduinoAccess = new ArduinoService();
 	private PortDataReader portDataReader = new PortDataReader(arduinoAccess, this);
 	private PortDisconnectChecker portDisconnectChecker = new PortDisconnectChecker(arduinoAccess, this);
 
@@ -43,8 +47,18 @@ public class PortAndArduinoModel {
 		if( btnText.equals( TEXTs.CONNECT.getText() ) ){
 			boolean isParamSet = arduinoAccess.setPortByName(selectedPort);
 			if( isParamSet ){
-				arduinoAccess.openPort();
-				portIsOpen = arduinoAccess.isOpen();
+
+				try {
+					arduinoAccess.openPort();
+				} catch (NoAvailableOpenPort e) {
+					e.printStackTrace();
+				}
+
+				try {
+					portIsOpen = arduinoAccess.isOpen();
+				} catch (ÑheckIsOpenPortException e) {
+					e.printStackTrace();
+				}
 
 				if( portIsOpen ){
 					portDataReader.startThread();
@@ -57,7 +71,11 @@ public class PortAndArduinoModel {
 				}
 			}
 		} else if (btnText.equals( TEXTs.DISCONNECT.getText()) ) {
-			arduinoAccess.closePort();
+			try {
+				arduinoAccess.closePort();
+			} catch (NoAvailableClosePort e) {
+				e.printStackTrace();
+			}
 			setPortIsOpen(false);
 
 			btnConnect.setText( TEXTs.CONNECT.getText() );
@@ -70,12 +88,20 @@ public class PortAndArduinoModel {
 
 	void setLedCommand( String btnText) {
 		if(btnText.equals( TEXTs.LED_ON.getText() )) {
-			arduinoAccess.sendCommand(COMMANDS.C0_LED_ON.getCommand() );
+			try {
+				arduinoAccess.sendCommand(COMMANDS.C0_LED_ON.getCommand() );
+			} catch (NoAvailableWriteData e) {
+				e.printStackTrace();
+			}
 
 			lblLedControl.setBackground(Color.GREEN);
 			btnLed.setText( TEXTs.LED_OFF.getText() );
 		} else if(btnText.equals( TEXTs.LED_OFF.getText()) ) {
-			arduinoAccess.sendCommand(COMMANDS.C1_LED_OFF.getCommand());
+			try {
+				arduinoAccess.sendCommand(COMMANDS.C1_LED_OFF.getCommand());
+			} catch (NoAvailableWriteData e) {
+				e.printStackTrace();
+			}
 
 			lblLedControl.setBackground(Color.LIGHT_GRAY);
 			btnLed.setText( TEXTs.LED_ON.getText() );

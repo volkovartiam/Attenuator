@@ -1,16 +1,17 @@
 package volkov.artiam.panels.portAndArduino;
 
-import volkov.artiam.arduino.ArduinoControl;
+import volkov.artiam.arduino.ArduinoService;
+import volkov.artiam.arduino.exceptions.streams.NoAvailableReadData;
 import volkov.artiam.datas.Additions;
 import volkov.artiam.datas.Delays;
 
 public class PortDataReader implements Runnable{
 
-    ArduinoControl arduinoAccess;
+    ArduinoService arduinoAccess;
     PortAndArduinoModel port;
     Thread thread;
 
-    PortDataReader(ArduinoControl arduinoService, PortAndArduinoModel port){
+    PortDataReader(ArduinoService arduinoService, PortAndArduinoModel port){
         this.arduinoAccess = arduinoService;
         this.port = port;
     }
@@ -18,7 +19,11 @@ public class PortDataReader implements Runnable{
     @Override
     public void run() {
         while ( port.isPortIsOpen() ){
-            arduinoAccess.readData();
+            try {
+                arduinoAccess.readData();
+            } catch (NoAvailableReadData e) {
+                e.printStackTrace();
+            }
             Additions.waitMilliseconds(Delays.DATA_READER_DELAY.getDelay());
         }
         if( !port.isPortIsOpen() ){

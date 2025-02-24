@@ -12,8 +12,9 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 @Setter @Getter
-public class ArduinoSingletonCopy implements PrintImpl {
+public class ArduinoSingletonCopy /* implements PrintImpl */ {
 
+    /*
     private ArduinoService arduinoService ;
     private static ArduinoSingletonCopy instance;
 
@@ -89,11 +90,10 @@ public class ArduinoSingletonCopy implements PrintImpl {
         return false;
     }
 
-    /*
+
     public String[] getAvailblePortsNames() {
         return arduinoService.getAvailablePortsNames();
     }
-    */
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
         supportRx.addPropertyChangeListener(pcl);
@@ -117,5 +117,6 @@ public class ArduinoSingletonCopy implements PrintImpl {
         String receivedDataFromArduino = data ;
         supportRx.firePropertyChange("tm", oldValue, receivedDataFromArduino);
     }
+    */
 
 }

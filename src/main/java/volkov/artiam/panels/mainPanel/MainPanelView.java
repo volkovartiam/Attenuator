@@ -1,6 +1,5 @@
 package volkov.artiam.panels.mainPanel;
 
-import volkov.artiam.arduino.PrintImpl;
 import volkov.artiam.panels.att.Att;
 import volkov.artiam.panels.console.Console;
 import volkov.artiam.panels.control.Control;
