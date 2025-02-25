@@ -19,11 +19,11 @@ String POS_3_3V_OFF  = "POS_3_3V;OFF;";
 
 //Команда для отправки значения аттенюатора в диапазоне от 0 до 31,5 дБ
 //Отправка команды в следующим виде "ATT;X.X;"
-//X.X - значения аттенюации (округление автоматически до 0.5)
+//X.X - значения аттенюации от 0.0 до 31.5
 String ATT = "ATT;" ;
-String OK_Att_0_0_dB  = "OK;Att;0.0;" ;
-String OK_Att_0_5_dB  = "OK;Att;0.5;" ;
-String OK_Att_15_5_dB  = "OK;Att;31.5 dB;" ;
+String OK_Att_0_0_dB  = "ATT;0.0;" ;
+String OK_Att_0_5_dB  = "ATT;0.5;" ;
+String OK_Att_15_5_dB  = "ATT;31.5;" ;
 
 
 //Команда для включения автоматического изменения шага аттенюатора
@@ -143,9 +143,12 @@ void readFromPort(){
 
 
 void print_to_serial(String str){
-      Serial.print(str);
+      Serial.println(str);
+      //Serial.print(str);
       delay(delaySerialPrint);
 }
+
+
 
 
 
@@ -161,8 +164,89 @@ void setCommand(String com){
     setNEG_3_3V(com);
     setPOS_3_3V(com);
 
+    setATT(com);
 }
 
+
+int minValueSPI = 0;
+int maxValueSPI = 63;
+
+
+void setATT(String parsedCommand){
+  
+  if(parsedCommand.startsWith(ATT) ){
+  
+    String string_withNumber = getNumberInATTCommand(parsedCommand);   
+    if(checkIsValid(string_withNumber) ) {
+  
+      float val_ATT = string_withNumber.toFloat();
+      int val_ATT_SPI = (int) (val_ATT/0.5);
+
+      if( val_ATT_SPI < maxValueSPI ){
+        //setATT_SPI(maxValueSPI);
+        Serial.println(val_ATT_SPI, DEC);
+      }      
+    }else {
+      //setATT_SPI(maxValueSPI);
+      Serial.print("Command mistake set att = ");
+      Serial.println(maxValueSPI, DEC);
+    }
+  }
+
+}
+
+
+String getNumberInATTCommand(String str){
+  byte divider = str.indexOf(';');
+  // String string_1 = str.substring(0, divider);    // создаём строку с первым числом
+  //print_to_serial("String 1 = " + string_1);
+
+  String string_withNumber = str.substring(divider + 1);   // создаём строку со вторым числом
+  divider = string_withNumber.indexOf(';');
+  string_withNumber = string_withNumber.substring(0, divider);
+  // print_to_serial("String with number =" + string_withNumber);
+  return string_withNumber;
+}
+
+
+bool checkIsValid(String str){
+  bool isValid = false;
+
+  int VALID_LENGTH_3 = 3;
+  if(str.length() == VALID_LENGTH_3) {
+    char firstChar = str.charAt(0);
+    bool firstCharIsDigit = isDigit(firstChar);
+
+    char secondChar = str.charAt(1);
+    bool secondCharIsDot = secondChar == '.';
+
+    char thirdChar = str.charAt(2);
+    bool thirdCharIsDigit = isDigit(thirdChar);
+
+    isValid = (firstCharIsDigit && secondCharIsDot && thirdCharIsDigit);
+    print_to_serial("VALID_LENGTH_3");
+  }
+
+  int VALID_LENGTH_4 = 4;
+  if(str.length() == VALID_LENGTH_4) {
+    char firstChar = str.charAt(0);
+    bool firstCharIsDigit = isDigit(firstChar);
+
+    char secondChar = str.charAt(1);
+    bool secondCharIsDot = isDigit(secondChar);
+
+    char thirdChar = str.charAt(2);
+    bool thirdCharIsDigit = thirdChar == '.';
+
+    char fourthChar = str.charAt(3);
+    bool fourthCharIsDigit = isDigit(fourthChar);
+
+    isValid = (firstCharIsDigit && secondCharIsDot && thirdCharIsDigit && fourthCharIsDigit);
+    print_to_serial("VALID_LENGTH_4");
+  }
+
+  return isValid;
+}
 
 
 
@@ -265,7 +349,7 @@ void att_OK(String coms ){
 }
 
 
-void setSPI_OK(int num){
+void setATT_SPI(int num){
     digitalWrite(LE, LOW);        
     SPI.transfer(num);    
     digitalWrite(LE, HIGH);

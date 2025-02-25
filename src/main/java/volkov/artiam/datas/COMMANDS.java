@@ -9,8 +9,20 @@ import java.util.Arrays;
 @AllArgsConstructor
 public enum COMMANDS {
 
-    C0_LED_ON("LED;ON;"),
-    C1_LED_OFF("LED;OFF;");
+    COMMAND_LED_ON("LED;ON;"),
+    COMMAND_LED_OFF("LED;OFF;"),
+
+    COMMAND_VERSION_GED("GET;VERSION;"),
+
+    COMMAND_NEG_3_3V_ON("NEG_3_3V;ON;"),
+    COMMAND_NEG_3_3V_OFF("NEG_3_3V;OFF;"),
+
+    COMMAND_POS_3_3V_ON("POS_3_3V;ON;"),
+    COMMAND_POS_3_3V_OFF("POS_3_3V;OFF;"),
+
+    COMMAND_ATT_AUTO_ON("POS_3_3V;ON;"),
+    COMMAND_ATT_AUTO_OFF("POS_3_3V;ON;");
+    //COMMAND_ATT_ ATT = "ATT;" ;
 
     final String command;
 

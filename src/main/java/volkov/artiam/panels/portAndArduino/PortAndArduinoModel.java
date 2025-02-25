@@ -89,7 +89,7 @@ public class PortAndArduinoModel {
 	void setLedCommand( String btnText) {
 		if(btnText.equals( TEXTs.LED_ON.getText() )) {
 			try {
-				arduinoAccess.sendCommand(COMMANDS.C0_LED_ON.getCommand() );
+				arduinoAccess.sendCommand(COMMANDS.COMMAND_LED_ON.getCommand() );
 			} catch (NoAvailableWriteData e) {
 				e.printStackTrace();
 			}
@@ -98,7 +98,7 @@ public class PortAndArduinoModel {
 			btnLed.setText( TEXTs.LED_OFF.getText() );
 		} else if(btnText.equals( TEXTs.LED_OFF.getText()) ) {
 			try {
-				arduinoAccess.sendCommand(COMMANDS.C1_LED_OFF.getCommand());
+				arduinoAccess.sendCommand(COMMANDS.COMMAND_LED_OFF.getCommand());
 			} catch (NoAvailableWriteData e) {
 				e.printStackTrace();
 			}

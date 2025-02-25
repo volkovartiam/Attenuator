@@ -23,7 +23,7 @@ public class Att implements ItemListener {
 	private double attMaxValue ;
 
 	public JLabel lblAttDef = pnl.lblAttDef;
-	private String postFix = " dB";
+	private String postFix = ""; //"" dB";
 	double attValue = 0;
 
 	public Att() {
