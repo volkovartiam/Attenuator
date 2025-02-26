@@ -44,7 +44,7 @@ public class PortAndArduinoModel {
 
 
 	void connect( String btnText ){
-		if( btnText.equals( TEXTs.CONNECT.getText() ) ){
+		if( btnText.equals( TEXTs.CONNECT.get() ) ){
 			boolean isParamSet = arduinoAccess.setPortByName(selectedPort);
 			if( isParamSet ){
 
@@ -64,13 +64,13 @@ public class PortAndArduinoModel {
 					portDataReader.startThread();
 					portDisconnectChecker.startThread();
 
-					btnConnect.setText( TEXTs.DISCONNECT.getText() );
+					btnConnect.setText( TEXTs.DISCONNECT.get() );
 					btnUpdate.setEnabled(false);
 					comboPortSelection.setEnabled(false);
 					btnLed.setEnabled(true);
 				}
 			}
-		} else if (btnText.equals( TEXTs.DISCONNECT.getText()) ) {
+		} else if (btnText.equals( TEXTs.DISCONNECT.get()) ) {
 			try {
 				arduinoAccess.closePort();
 			} catch (NoAvailableClosePort e) {
@@ -78,7 +78,7 @@ public class PortAndArduinoModel {
 			}
 			setPortIsOpen(false);
 
-			btnConnect.setText( TEXTs.CONNECT.getText() );
+			btnConnect.setText( TEXTs.CONNECT.get() );
 			btnUpdate.setEnabled(true);
 			comboPortSelection.setEnabled(true);
 			btnLed.setEnabled(false);
@@ -87,24 +87,24 @@ public class PortAndArduinoModel {
 	}
 
 	void setLedCommand( String btnText) {
-		if(btnText.equals( TEXTs.LED_ON.getText() )) {
+		if(btnText.equals( TEXTs.LED_ON.get() )) {
 			try {
-				arduinoAccess.sendCommand(COMMANDS.COMMAND_LED_ON.getCommand() );
+				arduinoAccess.sendCommand(COMMANDS.LED_ON.getCommand() );
 			} catch (NoAvailableWriteData e) {
 				e.printStackTrace();
 			}
 
 			lblLedControl.setBackground(Color.GREEN);
-			btnLed.setText( TEXTs.LED_OFF.getText() );
-		} else if(btnText.equals( TEXTs.LED_OFF.getText()) ) {
+			btnLed.setText( TEXTs.LED_OFF.get() );
+		} else if(btnText.equals( TEXTs.LED_OFF.get()) ) {
 			try {
-				arduinoAccess.sendCommand(COMMANDS.COMMAND_LED_OFF.getCommand());
+				arduinoAccess.sendCommand(COMMANDS.LED_OFF.getCommand());
 			} catch (NoAvailableWriteData e) {
 				e.printStackTrace();
 			}
 
 			lblLedControl.setBackground(Color.LIGHT_GRAY);
-			btnLed.setText( TEXTs.LED_ON.getText() );
+			btnLed.setText( TEXTs.LED_ON.get() );
 		}
 	}
 
@@ -129,7 +129,7 @@ public class PortAndArduinoModel {
 		btnLed.setEnabled(false);
 		btnUpdate.setEnabled(true);
 		comboPortSelection.setEnabled(true);
-		btnConnect.setText( TEXTs.CONNECT.getText() );
+		btnConnect.setText( TEXTs.CONNECT.get() );
 	}
 
 }

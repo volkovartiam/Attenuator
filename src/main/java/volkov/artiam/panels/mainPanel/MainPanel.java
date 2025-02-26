@@ -2,6 +2,8 @@ package volkov.artiam.panels.mainPanel;
 
 import lombok.Getter;
 import lombok.Setter;
+import volkov.artiam.datas.COMMANDS;
+import volkov.artiam.datas.TEXTs;
 import volkov.artiam.printers.ConsolePrinter;
 import volkov.artiam.printers.IPrinter;
 
@@ -26,12 +28,10 @@ public class MainPanel implements ActionListener, ItemListener {
 	JCheckBox chNegative = pnl.control.getChNegative();
 	JCheckBox chSlider = pnl.control.getChSliderEnable();
 
-	/*
-	String ON = TEXTs.ON.getText();
-	String OFF = TEXTs.OFF.getText();
-	String CONNECT = TEXTs.CONNECT.getText();
-	String DISCONNECT = TEXTs.DISCONNECT.getText();
-	*/
+	String LED_ON = TEXTs.LED_ON.get();
+	String LED_OFF = TEXTs.LED_OFF.get();
+	String CONNECT = TEXTs.CONNECT.get();
+	String DISCONNECT = TEXTs.DISCONNECT.get();
 
 	boolean sliderIsEnabled = false;
 	double attValue = 0;
@@ -61,6 +61,9 @@ public class MainPanel implements ActionListener, ItemListener {
 		updateValueAndLabels();
 	}
 
+	void setPorts(String[] ports){
+		pnl.port.setPorts(ports);
+	}
 
 	private void updateValueAndLabels(){
 		if(sliderIsEnabled){
@@ -82,24 +85,32 @@ public class MainPanel implements ActionListener, ItemListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-	//	String actionCommand = e.getActionCommand();
-
-
+		String actionCommand = e.getActionCommand();
 		if (e.getSource().equals(btnConnect)) {
-			printer.print("btnConnect");
+			if(actionCommand.equals(CONNECT)) {
+				printer.print(COMMANDS.CONNECT);
+			}
+			if(actionCommand.equals(DISCONNECT)) {
+				printer.print(COMMANDS.DISCONNECT);
+			}
 		}
 
 		if (e.getSource().equals(btnUpdate)) {
-			printer.print("btnUpdate");
+			printer.print(COMMANDS.UPDATE);
 		}
 
 		if (e.getSource().equals(btnLed)) {
-			printer.print("btnLed");
+			if(actionCommand.equals(LED_ON)) {
+				printer.print(COMMANDS.LED_ON);
+			}
+			if(actionCommand.equals(LED_OFF)) {
+				printer.print(COMMANDS.LED_OFF);
+			}
 		}
 
 		if (e.getSource().equals(btnSetAtt)) {
 			updateValueAndLabels();
-			printer.print("Значение аттенюатора " + attValue);
+			printer.print(COMMANDS.ATT + "" + attValue + ";");
 		}
 
 	}
@@ -111,27 +122,27 @@ public class MainPanel implements ActionListener, ItemListener {
 
 		if(e.getSource().equals(chPositive) ) {
 			if(chPositive.isSelected()){
-				printer.print("chPositive + HIGH");
+				printer.print(COMMANDS.POS_3_3V_ON);
 			} else {
-				printer.print("chPositive + LOW");
+				printer.print(COMMANDS.POS_3_3V_OFF);
 			}
 		}
 
 		if(e.getSource().equals(chNegative) ) {
 			if(chNegative.isSelected()){
-				printer.print("chNegative + HIGH");
+				printer.print(COMMANDS.NEG_3_3V_ON);
 			} else {
-				printer.print("chNegative + LOW");
+				printer.print(COMMANDS.NEG_3_3V_OFF);
 			}
 		}
 
 		if(e.getSource().equals(chSlider) ) {
 			if(chSlider.isSelected()){
 				sliderIsEnabled = true;
-				printer.print("chSlider + HIGH");
+				printer.print("SLIDER;ON;");
 			} else {
 				sliderIsEnabled = false;
-				printer.print("chNegative + LOW");
+				printer.print("SLIDER;OFF;");
 			}
 			updateValueAndLabels();
 			setSliderEnableOrNotView(sliderIsEnabled);

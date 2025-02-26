@@ -19,7 +19,7 @@ public class Port implements ActionListener, ItemListener {
 	JButton btnConnect = pnl.getBtnConnect();
 	JButton btnLed = pnl.getBtnLed();
 	JButton btnUpdate = pnl.getBtnUpdate();
-	private JComboBox<String> comboPortSelection  = pnl.getComboPortSelection();
+	JComboBox<String> comboPortSelection  = pnl.getComboPortSelection();
 	private JLabel lblLed = pnl.getLblLed();
 
 	String selectedPort = "";
@@ -89,7 +89,7 @@ public class Port implements ActionListener, ItemListener {
 	}
 
 
-	void setPorts(String[] ports){
+	public void setPorts(String[] ports){
 		comboPortSelection.removeAllItems();
 		for (String port : ports) {
 			comboPortSelection.addItem(port);

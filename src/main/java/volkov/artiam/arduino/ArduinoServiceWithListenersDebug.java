@@ -17,8 +17,8 @@ public class ArduinoServiceWithListenersDebug {
     public static void main(String[] args ) throws NoAvailableReadWriteData, NoAvailableWriteData, NoAvailableReadData,
             ÑheckIsOpenPortException, NoAvailableOpenPort, NoAvailableClosePort {
 
-        ArduinoServiceWithLIsteners arduino = ArduinoServiceWithLIsteners.getInstance();
-        ArduinoServiceWithLIsteners arduino2 = ArduinoServiceWithLIsteners.getInstance();;
+        ArduinoServiceWithListeners arduino = ArduinoServiceWithListeners.getInstance();
+        ArduinoServiceWithListeners arduino2 = ArduinoServiceWithListeners.getInstance();;
 
 
         String[] portNames = arduino.getPortsNames();

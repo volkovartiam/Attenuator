@@ -21,7 +21,12 @@ public enum TEXTs {
         text = msg;
     }
 
-    public String getText() {
+    public String get() {
+        return text;
+    }
+
+    @Override
+    public String toString() {
         return text;
     }
 }

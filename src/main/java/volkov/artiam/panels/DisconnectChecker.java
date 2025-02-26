@@ -19,8 +19,8 @@ public class DisconnectChecker implements Runnable, ActionListener {
     private MainPanelView panel;
     private Thread thread;
 
-    String CONNECT = TEXTs.CONNECT.getText();
-    String DISCONNECT = TEXTs.DISCONNECT.getText();
+    String CONNECT = TEXTs.CONNECT.get();
+    String DISCONNECT = TEXTs.DISCONNECT.get();
 
 
     void init(MainPanelView panel){

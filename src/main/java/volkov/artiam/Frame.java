@@ -1,7 +1,5 @@
 package volkov.artiam;
 
-import volkov.artiam.panels.mainPanel.MainPanel;
-
 import javax.swing.*   ;
 import java.awt.*   ;
 
@@ -9,8 +7,8 @@ public class Frame extends JFrame {
 
 	int sizeX = 910	 ;
 	int sizeY = 500 ;
-	MainPanel pnlMain = new MainPanel();
-	JPanel pnl = pnlMain.getPnl();
+	MainPanelController controller = new MainPanelController();
+	JPanel pnl = controller.mainPanel.getPnl();
 
 	Frame() {
 

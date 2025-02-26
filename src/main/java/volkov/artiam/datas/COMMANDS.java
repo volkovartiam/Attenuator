@@ -9,20 +9,25 @@ import java.util.Arrays;
 @AllArgsConstructor
 public enum COMMANDS {
 
-    COMMAND_LED_ON("LED;ON;"),
-    COMMAND_LED_OFF("LED;OFF;"),
+    LED_ON("LED;ON;"),
+    LED_OFF("LED;OFF;"),
 
-    COMMAND_VERSION_GED("GET;VERSION;"),
+    GET_VERSION("GET;VERSION;"),
 
-    COMMAND_NEG_3_3V_ON("NEG_3_3V;ON;"),
-    COMMAND_NEG_3_3V_OFF("NEG_3_3V;OFF;"),
+    NEG_3_3V_ON("NEG_3_3V;ON;"),
+    NEG_3_3V_OFF("NEG_3_3V;OFF;"),
 
-    COMMAND_POS_3_3V_ON("POS_3_3V;ON;"),
-    COMMAND_POS_3_3V_OFF("POS_3_3V;OFF;"),
+    POS_3_3V_ON("POS_3_3V;ON;"),
+    POS_3_3V_OFF("POS_3_3V;OFF;"),
 
-    COMMAND_ATT_AUTO_ON("POS_3_3V;ON;"),
-    COMMAND_ATT_AUTO_OFF("POS_3_3V;ON;");
-    //COMMAND_ATT_ ATT = "ATT;" ;
+    ATT_AUTO_ON("POS_3_3V;ON;"),
+    ATT_AUTO_OFF("POS_3_3V;ON;"),
+    ATT("ATT;"),
+    //COMMAND_ATT_ ATT = "ATT;31.5;" ;      //Пример
+
+    CONNECT("CONNECT;"),
+    DISCONNECT("DISCONNECT;"),
+    UPDATE("UPDATE;");
 
     final String command;
 
@@ -32,4 +37,8 @@ public enum COMMANDS {
                 .toArray(String[]::new);
     }
 
+    @Override
+    public String toString() {
+        return command;
+    }
 }
