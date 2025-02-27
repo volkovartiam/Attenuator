@@ -61,8 +61,12 @@ public class MainPanel implements ActionListener, ItemListener {
 		updateValueAndLabels();
 	}
 
-	void setPorts(String[] ports){
+	public void setPorts(String[] ports){
 		pnl.port.setPorts(ports);
+	}
+
+	public String getSelectedPort(){
+		return pnl.port.getSelectedPort();
 	}
 
 	private void updateValueAndLabels(){
@@ -76,7 +80,7 @@ public class MainPanel implements ActionListener, ItemListener {
 	}
 
 
-	void setConnectedOrDisconnectedView(boolean isConnected){
+	public void setConnectedOrDisconnectedView(boolean isConnected){
 		pnl.port.setConnectedOrDisconnectedView(isConnected);
 		pnl.control.setEnabled(isConnected);
 		pnl.att.setEnabled(isConnected);
@@ -88,15 +92,15 @@ public class MainPanel implements ActionListener, ItemListener {
 		String actionCommand = e.getActionCommand();
 		if (e.getSource().equals(btnConnect)) {
 			if(actionCommand.equals(CONNECT)) {
-				printer.print(COMMANDS.CONNECT);
+				//printer.print(COMMANDS.CONNECT);
 			}
 			if(actionCommand.equals(DISCONNECT)) {
-				printer.print(COMMANDS.DISCONNECT);
+				//printer.print(COMMANDS.DISCONNECT);
 			}
 		}
 
 		if (e.getSource().equals(btnUpdate)) {
-			printer.print(COMMANDS.UPDATE);
+			//printer.print(COMMANDS.UPDATE);
 		}
 
 		if (e.getSource().equals(btnLed)) {

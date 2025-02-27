@@ -22,7 +22,7 @@ public class Port implements ActionListener, ItemListener {
 	JComboBox<String> comboPortSelection  = pnl.getComboPortSelection();
 	private JLabel lblLed = pnl.getLblLed();
 
-	String selectedPort = "";
+	public String selectedPort = "";
 
 	private String ledOn = "Контроль ВКЛ";
 	private String ledOff = "Контроль ОТКЛ";

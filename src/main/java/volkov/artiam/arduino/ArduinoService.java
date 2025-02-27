@@ -37,7 +37,7 @@ public class ArduinoService extends Arduino{
         port.addDataListener(defaultSerialPortDataListener);
     }
 
-    boolean initReaderWriter() throws NoAvailableReadWriteData {
+    public boolean initReaderWriter() throws NoAvailableReadWriteData {
         boolean isInitReaderWriter = false;
         try {
             outPut = new PrintWriter(port.getOutputStream(), true, StandardCharsets.UTF_8);
