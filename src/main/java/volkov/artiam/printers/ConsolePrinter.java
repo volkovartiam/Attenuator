@@ -8,4 +8,11 @@ public class ConsolePrinter implements IPrinter {
     public void print(Object object) {
         System.out.println(object);
     }
+
+    @Override
+    public void print(Object object, boolean isPrintable) {
+        if(isPrintable){
+            print(object);
+        }
+    }
 }

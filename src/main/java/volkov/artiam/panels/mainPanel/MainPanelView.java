@@ -10,10 +10,10 @@ import javax.swing.border.EtchedBorder;
 
 public class MainPanelView extends JPanel {
 
-	Port port = new Port();
-	Control control = new Control();
-	Att att = new Att();
-	Console console = new Console();
+	public Port port = new Port();
+	public Control control = new Control();
+	public Att att = new Att();
+	public Console console = new Console();
 
 	JPanel pnlPort = port.getPnl();
 	JPanel controlPnl = control.getPnl();

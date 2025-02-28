@@ -4,9 +4,13 @@ import com.fazecast.jSerialComm.SerialPortDataListener;
 import lombok.Getter;
 import lombok.Setter;
 
+import volkov.artiam.arduino.exceptions.ports.NoAvailableClosePort;
+import volkov.artiam.arduino.exceptions.ports.NoAvailableOpenPort;
+import volkov.artiam.arduino.exceptions.ports.ÑheckIsOpenPortException;
 import volkov.artiam.arduino.exceptions.streams.NoAvailableReadData;
 import volkov.artiam.arduino.exceptions.streams.NoAvailableReadWriteData;
 import volkov.artiam.arduino.exceptions.streams.NoAvailableWriteData;
+import volkov.artiam.arduino.listeners.Listener_Data_Available;
 import volkov.artiam.printers.ConsolePrinter;
 import volkov.artiam.printers.IPrinter;
 
@@ -24,8 +28,6 @@ public class ArduinoService extends Arduino{
     private IPrinter printer = new ConsolePrinter();
 
     private static ArduinoService instance;
-
-
     public static ArduinoService getInstance(){
         if(instance == null) {
             instance = new ArduinoService();
@@ -33,9 +35,11 @@ public class ArduinoService extends Arduino{
         return instance;
     }
 
+
     void initListener(SerialPortDataListener defaultSerialPortDataListener) {
         port.addDataListener(defaultSerialPortDataListener);
     }
+
 
     public boolean initReaderWriter() throws NoAvailableReadWriteData {
         boolean isInitReaderWriter = false;
@@ -48,6 +52,44 @@ public class ArduinoService extends Arduino{
             throw new NoAvailableReadWriteData();
         }
         return isInitReaderWriter;
+    }
+
+
+    public boolean isOpen(){
+        boolean isOpen;
+        try {
+            isOpen = super.isOpen();
+        } catch (ÑheckIsOpenPortException e) {
+            isOpen = false;
+            printer.print(e.getMessage());
+        }
+        return isOpen;
+    }
+
+
+    public boolean openPort(){
+        boolean thisOpenAndInit;
+        try {
+            thisOpenAndInit = this.initReaderWriter() & super.openPort();
+        } catch (NoAvailableReadWriteData | NoAvailableOpenPort e) {
+            thisOpenAndInit = false;
+            printer.print(e.getMessage());
+        } if(thisOpenAndInit){
+            this.initListener(new Listener_Data_Available() );
+        }
+        return thisOpenAndInit;
+    }
+
+
+    public boolean closePort(){
+        boolean isClosed;
+        try {
+            isClosed = super.closePort();
+        } catch (NoAvailableClosePort e) {
+            isClosed = false;
+            printer.print(e.getMessage());
+        }
+        return isClosed;
     }
 
 

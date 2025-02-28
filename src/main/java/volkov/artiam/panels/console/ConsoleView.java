@@ -10,10 +10,10 @@ import java.awt.event.MouseEvent;
 
 public class ConsoleView extends JPanel{
 
-	JTextArea textAreaRx = new JTextArea();
-    JTextArea textAreaTx = new JTextArea();
-    private JScrollPane scrollPaneRx = new JScrollPane(textAreaRx);
-    private JScrollPane scrollPaneTx = new JScrollPane(textAreaTx);
+	JTextArea textAreaRight = new JTextArea();
+    JTextArea textAreaLeft = new JTextArea();
+    private JScrollPane scrollPaneRx = new JScrollPane(textAreaRight);
+    private JScrollPane scrollPaneTx = new JScrollPane(textAreaLeft);
 
     public ConsoleView() {
 
@@ -23,8 +23,8 @@ public class ConsoleView extends JPanel{
         setBackground(UIManager.getColor("Button.background"));
         setBorder(new EmptyBorder(0, 0, 0, 0));
   
-        setTextAreaParams(textAreaRx);
-        setTextAreaParams(textAreaTx);
+        setTextAreaParams(textAreaRight);
+        setTextAreaParams(textAreaLeft);
       
         setScrollPaneParams(scrollPaneRx, 20, 0, 400, 50);
         setScrollPaneParams(scrollPaneTx, 470, 0, 400, 50);

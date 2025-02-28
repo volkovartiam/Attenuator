@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum Delays {
+public enum DELAYS {
 
     DEFAULT_DELAY(150),
     // PortAndArduinoModel

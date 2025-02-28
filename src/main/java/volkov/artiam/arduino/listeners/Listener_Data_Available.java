@@ -26,8 +26,9 @@ public class Listener_Data_Available extends ArduinoListener implements SerialPo
     public void serialEvent(SerialPortEvent event) {
         if( event.getEventType() == SerialPort.LISTENING_EVENT_DATA_AVAILABLE) {
             isDataAvailable = true;
-            printer.print("DATA_AVAILABLE");
-            JOptionPane.showMessageDialog(null, "Доступны данные для чтения" );
+            arduino.readData();
+            //printer.print("DATA_AVAILABLE");
+            //JOptionPane.showMessageDialog(null, "Доступны данные для чтения" );
         }
     }
 

@@ -2,20 +2,21 @@ package volkov.artiam.arduino;
 
 import lombok.Getter;
 import lombok.Setter;
-import volkov.artiam.arduino.exceptions.ports.NoAvailableClosePort;
-import volkov.artiam.arduino.exceptions.ports.NoAvailableOpenPort;
-import volkov.artiam.arduino.exceptions.streams.NoAvailableReadWriteData;
+import volkov.artiam.arduino.exceptions.streams.NoAvailableReadData;
 import volkov.artiam.arduino.exceptions.streams.NoAvailableWriteData;
-import volkov.artiam.datas.COMMANDS;
+import volkov.artiam.datas.ADDS;
+import volkov.artiam.datas.DATAS;
 import volkov.artiam.printers.IPrinter;
+
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 @Setter @Getter
 public class ArduinoServiceWithListeners extends ArduinoService implements IPrinter{
 
+    private PropertyChangeSupport supportRx;
+
     private static ArduinoServiceWithListeners instance;
-
-    boolean isConnected = false;
-
     public static ArduinoServiceWithListeners getInstance(){
         if(instance == null) {
             instance = new ArduinoServiceWithListeners();
@@ -23,81 +24,69 @@ public class ArduinoServiceWithListeners extends ArduinoService implements IPrin
         return instance;
     }
 
+    private ArduinoServiceWithListeners(){
+        super();
+        supportRx = new PropertyChangeSupport(this);
+    }
 
     @Override
     public void print(Object command) {
-        if(command.equals(COMMANDS.UPDATE)){
-            //this.getPortsNames();
-        }
-        if(command.equals(COMMANDS.CONNECT)){
-           //this.openPort();
-        }
-        if(command.equals(COMMANDS.DISCONNECT)) {
-            //this.closePort();
-        }
-
-        /*
-        if(command.equals(COMMANDS.LED_ON)) {
-            this.sendCommand(COMMANDS.LED_ON);
-        }*/
-
         try {
-            this.sendCommand(command.toString() );
+            this.sendCommand(command.toString());
+            this.notifyAboutNewCommand(command.toString());
         } catch (NoAvailableWriteData e) {
             e.printStackTrace();
         }
-
         this.getPrinter().print(command);
     }
 
-    public boolean closePort(){
-        boolean isClose = false;
+    @Override
+    public void print(Object object, boolean isPrintable) {
+        if(isPrintable){
+            print(object);
+        }
+    }
+
+    @Override
+    public String readData(){
+        String data = "";
         try {
-            isClose = super.closePort();
-        } catch (NoAvailableClosePort e) {
-            isClose = false;
+            data = super.readData();
+            if( !data.isEmpty() || !data.isBlank()) {
+                notifyAboutNewData(data);
+            }
+        } catch (NoAvailableReadData e) {
             e.printStackTrace();
         }
-        if(isClose) {
-            isConnected = false;
-        }
-        return isClose;
+        return data;
     }
 
 
-    public boolean openPort(){
-        boolean isOpen = false;
-        boolean isInit = false;
-        try {
-            isInit = initReaderWriter();
-        } catch (NoAvailableReadWriteData e) {
-            isInit = false;
-            e.printStackTrace();
-        }
-        try {
-            isOpen = super.openPort() & isInit;
-        } catch (NoAvailableOpenPort e) {
-            isOpen = false;
-            e.printStackTrace();
-        }
-        if(isOpen) {
-            isConnected = true;
-        }
-        return isOpen;
+    public void addPropertyChangeListener(PropertyChangeListener pcl) {
+        supportRx.addPropertyChangeListener(pcl);
     }
 
 
-    /*
-    private void sendCommand(Object obj) {
-        String command = obj.toString();
-        System.out.println("command = " + command);
-        try {
-            super.sendCommand(command);
-        } catch (NoAvailableWriteData e) {
-            e.printStackTrace();
-            this.getPrinter().print("HERE IS EXCEPTION");
-        }
+    public void notifyAboutNewCommand(String command) {
+        String oldCommand = "";
+        String newCommand = ADDS.getCurrentTimeStamp() + command ;
+        supportRx.firePropertyChange(DATAS.PCL_COMMAND.toString(), oldCommand, newCommand);
     }
-        */
+
+
+    public void notifyAboutNewData(String data) {
+        notifyAboutNewTM(data);
+        String oldData = "";
+        String newData = ADDS.getCurrentTimeStamp() + data ;
+        supportRx.firePropertyChange(DATAS.PCL_NEWS.toString(), oldData, newData);
+    }
+
+
+    public void notifyAboutNewTM(String data) {
+        String oldTM = "";
+        String newTM = data ;
+        supportRx.firePropertyChange(DATAS.PCL_TM.toString(), oldTM, newTM);
+    }
+
 
 }

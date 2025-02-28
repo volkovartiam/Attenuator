@@ -5,7 +5,7 @@ import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
 import lombok.Getter;
 import lombok.Setter;
-import volkov.artiam.datas.MESSAGES;
+import volkov.artiam.arduino.exceptions.MESSAGES;
 
 import javax.swing.JOptionPane;
 
@@ -28,7 +28,7 @@ public class Listener_Port_Disconnected  extends ArduinoListener implements Seri
         if( event.getEventType() == SerialPort.LISTENING_EVENT_PORT_DISCONNECTED) {
             isDisconnected = true;
             printer.print("PORT_DISCONNECTED");
-            JOptionPane.showMessageDialog(null, MESSAGES.PORT_DISCONNECTED.getMessage() );
+            JOptionPane.showMessageDialog(null, MESSAGES.PORT_DISCONNECTED.toString() );
         }
     }
 

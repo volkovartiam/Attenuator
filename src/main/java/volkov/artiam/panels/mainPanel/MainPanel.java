@@ -2,8 +2,8 @@ package volkov.artiam.panels.mainPanel;
 
 import lombok.Getter;
 import lombok.Setter;
-import volkov.artiam.datas.COMMANDS;
-import volkov.artiam.datas.TEXTs;
+import volkov.artiam.datas.DATAS;
+import volkov.artiam.panels.CastChangeListener;
 import volkov.artiam.printers.ConsolePrinter;
 import volkov.artiam.printers.IPrinter;
 
@@ -12,12 +12,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.beans.PropertyChangeEvent;
 
 
 @Setter @Getter
-public class MainPanel implements ActionListener, ItemListener {
+public class MainPanel extends CastChangeListener implements ActionListener, ItemListener {
 
-	MainPanelView pnl = new MainPanelView();
+	public MainPanelView pnl = new MainPanelView();
 
 	JButton btnConnect = pnl.port.getBtnConnect();
 	JButton btnUpdate = pnl.port.getBtnUpdate();
@@ -28,15 +29,14 @@ public class MainPanel implements ActionListener, ItemListener {
 	JCheckBox chNegative = pnl.control.getChNegative();
 	JCheckBox chSlider = pnl.control.getChSliderEnable();
 
-	String LED_ON = TEXTs.LED_ON.get();
-	String LED_OFF = TEXTs.LED_OFF.get();
-	String CONNECT = TEXTs.CONNECT.get();
-	String DISCONNECT = TEXTs.DISCONNECT.get();
+	String LED_ON = DATAS.LED_ON_BUTTON.toString();
+	String LED_OFF = DATAS.LED_OFF_BUTTON.toString();
+	String CONNECT = DATAS.CONNECT_BUTTON.toString();
+	String DISCONNECT = DATAS.DISCONNECT_BUTTON.toString();
 
 	boolean sliderIsEnabled = false;
 	double attValue = 0;
 
-	IPrinter printer = new ConsolePrinter();
 
 	public MainPanel(){
 
@@ -92,29 +92,29 @@ public class MainPanel implements ActionListener, ItemListener {
 		String actionCommand = e.getActionCommand();
 		if (e.getSource().equals(btnConnect)) {
 			if(actionCommand.equals(CONNECT)) {
-				//printer.print(COMMANDS.CONNECT);
+				printer.print(DATAS.CONNECT, false);
 			}
 			if(actionCommand.equals(DISCONNECT)) {
-				//printer.print(COMMANDS.DISCONNECT);
+				printer.print(DATAS.DISCONNECT, false);
 			}
 		}
 
 		if (e.getSource().equals(btnUpdate)) {
-			//printer.print(COMMANDS.UPDATE);
+			printer.print(DATAS.UPDATE, false);
 		}
 
 		if (e.getSource().equals(btnLed)) {
 			if(actionCommand.equals(LED_ON)) {
-				printer.print(COMMANDS.LED_ON);
+				printer.print(DATAS.LED_ON);
 			}
 			if(actionCommand.equals(LED_OFF)) {
-				printer.print(COMMANDS.LED_OFF);
+				printer.print(DATAS.LED_OFF);
 			}
 		}
 
 		if (e.getSource().equals(btnSetAtt)) {
 			updateValueAndLabels();
-			printer.print(COMMANDS.ATT + "" + attValue + ";");
+			printer.print(DATAS.ATT + "" + attValue + ";");
 		}
 
 	}
@@ -126,31 +126,47 @@ public class MainPanel implements ActionListener, ItemListener {
 
 		if(e.getSource().equals(chPositive) ) {
 			if(chPositive.isSelected()){
-				printer.print(COMMANDS.POS_3_3V_ON);
+				printer.print(DATAS.POS_3_3V_ON);
 			} else {
-				printer.print(COMMANDS.POS_3_3V_OFF);
+				printer.print(DATAS.POS_3_3V_OFF);
 			}
 		}
 
 		if(e.getSource().equals(chNegative) ) {
 			if(chNegative.isSelected()){
-				printer.print(COMMANDS.NEG_3_3V_ON);
+				printer.print(DATAS.NEG_3_3V_ON);
 			} else {
-				printer.print(COMMANDS.NEG_3_3V_OFF);
+				printer.print(DATAS.NEG_3_3V_OFF);
 			}
 		}
 
 		if(e.getSource().equals(chSlider) ) {
 			if(chSlider.isSelected()){
 				sliderIsEnabled = true;
-				printer.print("SLIDER;ON;");
+				printer.print("SLIDER;ON;", false);
 			} else {
 				sliderIsEnabled = false;
-				printer.print("SLIDER;OFF;");
+				printer.print("SLIDER;OFF;", false);
 			}
 			updateValueAndLabels();
 			setSliderEnableOrNotView(sliderIsEnabled);
 		}
 
 	}
+
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		String propertyName = evt.getPropertyName();
+		if (propertyName.equals(news) ) {
+
+		}
+		else if(propertyName.equals(commands) ) {
+
+		}
+		else if(propertyName.equals(tm) ) {
+
+		}
+	}
+
 }

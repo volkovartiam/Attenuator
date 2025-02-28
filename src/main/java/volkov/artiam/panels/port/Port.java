@@ -2,6 +2,8 @@ package volkov.artiam.panels.port;
 
 import lombok.Getter;
 import lombok.Setter;
+import volkov.artiam.datas.DATAS;
+import volkov.artiam.panels.CastChangeListener;
 import volkov.artiam.printers.IPrinter;
 import volkov.artiam.printers.NoPrinter;
 
@@ -11,9 +13,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.beans.PropertyChangeEvent;
 
 @Getter @Setter
-public class Port implements ActionListener, ItemListener {
+public class Port extends CastChangeListener implements ActionListener, ItemListener {
 
 	PortView pnl = new PortView();
 	JButton btnConnect = pnl.getBtnConnect();
@@ -24,13 +27,12 @@ public class Port implements ActionListener, ItemListener {
 
 	public String selectedPort = "";
 
-	private String ledOn = "Контроль ВКЛ";
-	private String ledOff = "Контроль ОТКЛ";
-	private String connect = "Подключение";
-	private String disconnect = "Отключение" ;
+	private String ledOn = DATAS.LED_ON_BUTTON.toString(); 				// "Контроль ВКЛ";
+	private String ledOff = DATAS.LED_OFF_BUTTON.toString(); 			// "Контроль ОТКЛ";
+	private String connect = DATAS.CONNECT_BUTTON.toString(); 			//"Подключение";
+	private String disconnect = DATAS.DISCONNECT_BUTTON.toString(); 	//"Отключение" ;
 
 	private boolean ledViewOn = false;
-	private IPrinter printer = new NoPrinter();
 
 	public Port() {
 
@@ -106,5 +108,18 @@ public class Port implements ActionListener, ItemListener {
 		}
 	}
 
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		String propertyName = evt.getPropertyName();
+		if (propertyName.equals(news) ) {
+
+		}
+		else if(propertyName.equals(commands) ) {
+
+		}
+		else if(propertyName.equals(tm) ) {
+
+		}
+	}
 
 }

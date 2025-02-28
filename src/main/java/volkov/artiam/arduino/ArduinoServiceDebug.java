@@ -6,10 +6,8 @@ import volkov.artiam.arduino.exceptions.ports.ÑheckIsOpenPortException;
 import volkov.artiam.arduino.exceptions.streams.NoAvailableReadData;
 import volkov.artiam.arduino.exceptions.streams.NoAvailableReadWriteData;
 import volkov.artiam.arduino.exceptions.streams.NoAvailableWriteData;
-import volkov.artiam.arduino.listeners.Listener_Data_Available;
-import volkov.artiam.arduino.listeners.Listener_Data_Received;
 import volkov.artiam.arduino.listeners.Listener_Port_Disconnected;
-import volkov.artiam.datas.Additions;
+import volkov.artiam.datas.ADDS;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,11 +56,11 @@ public class ArduinoServiceDebug {
         }
         */
         /**/
-        Additions.waitMilliseconds();
+        ADDS.waitMilliseconds();
         int newNumber = 5;
         for (int i = 0; i < newNumber; i++){
             arduino.sendCommand("LED;ON;");
-            Additions.waitMilliseconds();
+            ADDS.waitMilliseconds();
             /*
             Additions.waitMilliseconds(2000);
             arduino.sendCommand("LED;OFF;");

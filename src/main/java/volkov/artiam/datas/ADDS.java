@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 @NoArgsConstructor
-public class Additions {
+public class ADDS {
 
     public static void waitMilliseconds(int milSecondsToSleep){
         if(milSecondsToSleep < 0){

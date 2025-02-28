@@ -2,10 +2,12 @@ package volkov.artiam.panels.att;
 
 import lombok.Getter;
 import lombok.Setter;
+import volkov.artiam.panels.CastChangeListener;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,7 +15,7 @@ import java.util.Map;
 
 @Getter
 @Setter
-public class Att implements ItemListener {
+public class Att extends CastChangeListener implements ItemListener {
 
 	AttView pnl = new AttView();
 	HashMap<JCheckBox, Double> checkboxesAndValues = new HashMap<>();
@@ -25,6 +27,7 @@ public class Att implements ItemListener {
 	public JLabel lblAttDef = pnl.lblAttDef;
 	private String postFix = ""; //"" dB";
 	double attValue = 0;
+
 
 	public Att() {
 
@@ -88,6 +91,20 @@ public class Att implements ItemListener {
 	public void setEnabled(boolean enabled){
 		for (JCheckBox jch: checkBoxes) {
 			jch.setEnabled(enabled);
+		}
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		String propertyName = evt.getPropertyName();
+		if (propertyName.equals(news) ) {
+
+		}
+		else if(propertyName.equals(commands) ) {
+
+		}
+		else if(propertyName.equals(tm) ) {
+
 		}
 	}
 

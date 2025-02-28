@@ -6,9 +6,6 @@ import volkov.artiam.arduino.exceptions.ports.ÑheckIsOpenPortException;
 import volkov.artiam.arduino.exceptions.streams.NoAvailableReadData;
 import volkov.artiam.arduino.exceptions.streams.NoAvailableReadWriteData;
 import volkov.artiam.arduino.exceptions.streams.NoAvailableWriteData;
-import volkov.artiam.arduino.listeners.Listener_Port_Disconnected;
-import volkov.artiam.datas.Additions;
-import volkov.artiam.datas.COMMANDS;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +19,6 @@ public class ArduinoServiceWithListenersDebug {
         ArduinoServiceWithListeners arduino2 = ArduinoServiceWithListeners.getInstance();;
 
 
-        arduino.print(COMMANDS.UPDATE.getCommand() );
         String[] portNames = arduino.getPortsNames();
         System.out.println( "Ñïèñîê äîñòóïíûõ ïîğòîâ: " +  new ArrayList<>(Arrays.asList(portNames) ));
 

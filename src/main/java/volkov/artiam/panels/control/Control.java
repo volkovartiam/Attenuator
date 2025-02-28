@@ -2,20 +2,20 @@ package volkov.artiam.panels.control;
 
 import lombok.Getter;
 import lombok.Setter;
-import volkov.artiam.printers.ConsolePrinter;
-import volkov.artiam.printers.IPrinter;
-import volkov.artiam.printers.NoPrinter;
+import volkov.artiam.panels.CastChangeListener;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.beans.PropertyChangeEvent;
 
 @Getter @Setter
-public class Control implements ActionListener, ChangeListener, ItemListener {
+public class Control extends CastChangeListener implements ActionListener, ItemListener, ChangeListener {
 
 	ControlView pnl = new ControlView();
 	JCheckBox chPositive = pnl.chPositive;
@@ -28,7 +28,7 @@ public class Control implements ActionListener, ChangeListener, ItemListener {
 	JSlider slider = pnl.slider;
 
 	double attValue = 31.5;
-	private IPrinter printer = new NoPrinter();
+
 
 	public Control() {
 
@@ -103,4 +103,26 @@ public class Control implements ActionListener, ChangeListener, ItemListener {
 		}
 
 	}
+
+
+	public void setTm(String data){
+		lblAttTM.setText("TM = " + data);
+	}
+
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		String propertyName = evt.getPropertyName();
+		if (propertyName.equals(news) ) {
+
+		}
+		else if(propertyName.equals(commands) ) {
+
+		}
+		else if(propertyName.equals(tm) ) {
+			String tmDatas =  (String)evt.getNewValue();
+			setTm(tmDatas);
+		}
+	}
+
 }

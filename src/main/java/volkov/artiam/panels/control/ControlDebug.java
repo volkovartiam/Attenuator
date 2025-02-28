@@ -13,6 +13,7 @@ public class ControlDebug extends JFrame   {
 	int ySize = 500;
 
 	ControlDebug() {
+		control.setTm("63");
 		setTitle("Для отладки панели управления питанием") ;
 		setMinimumSize(new Dimension(xSize, ySize));
 		add(pnl);

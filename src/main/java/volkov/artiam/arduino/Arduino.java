@@ -21,8 +21,6 @@ public class Arduino  {
     private String[] portsNames;
     private String[] portsNamesByDefault = {""};
 
-    boolean portParametersIsSet = false;
-
     private static Arduino instance;
 
     public static Arduino getInstance(){
@@ -65,6 +63,7 @@ public class Arduino  {
 
 
     public boolean setPortByName(String portName) {
+        boolean portParametersIsSet;
         try {
             if( checkName(portName) ) {
                 port = SerialPort.getCommPort(portName);
@@ -109,7 +108,8 @@ public class Arduino  {
         boolean isPortInList = Arrays.asList(portsNames).contains(portName);        // Если имя порта в списке
         boolean isReadableName = !portName.equals("User-Specified Port");           // Если программа может прочитатать имя порта, например не "[][][]"
         boolean isPortsHere = !portName.equals("");                                 // Если порт есть
-        return (isPortInList && isReadableName && isPortsHere);
+        boolean isChecked = (isPortInList && isReadableName && isPortsHere);
+        return isChecked;
     }
 
 }

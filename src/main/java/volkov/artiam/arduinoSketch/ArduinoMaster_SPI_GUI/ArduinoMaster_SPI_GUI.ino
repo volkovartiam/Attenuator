@@ -133,8 +133,8 @@ void readFromPort(){
 
 
 void print_to_serial(String str){
-    Serial.println(str);
-    //Serial.print(str);
+    //Serial.println(str);
+    Serial.print(str);
     delay(delaySerialPrint);
 }
 
@@ -217,12 +217,12 @@ void setATT(String parsedCommand){
 
       if( val_ATT_SPI <= maxValueSPI ){
         //setATT_SPI(maxValueSPI);
-        Serial.println(val_ATT_SPI, DEC);
+        Serial.print(val_ATT_SPI, DEC);
       }
     }else {
       //setATT_SPI(maxValueSPI);
       Serial.print("Command mistake set att = ");
-      Serial.println(maxValueSPI, DEC);
+      Serial.print(maxValueSPI, DEC);
     }
   }
 
@@ -290,12 +290,12 @@ void setATT_AUTO( String coms ){
     }
     if(coms.equals(ATT_AUTO_OFF) ){
       isAutoTM_OK = false;
-      Serial.println(maxValueSPI, DEC);
+      Serial.print(maxValueSPI, DEC);
     }
 }
 
 void runAttAuto(){
-  Serial.println(currentSPI, DEC);
+  Serial.print(currentSPI, DEC);
   currentSPI = currentSPI - 1;
   if(currentSPI < 0){
     currentSPI = maxValueSPI;
