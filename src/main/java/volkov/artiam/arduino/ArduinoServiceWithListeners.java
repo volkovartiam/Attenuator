@@ -6,7 +6,9 @@ import volkov.artiam.arduino.exceptions.streams.NoAvailableReadData;
 import volkov.artiam.arduino.exceptions.streams.NoAvailableWriteData;
 import volkov.artiam.datas.ADDS;
 import volkov.artiam.datas.DATAS;
+import volkov.artiam.datas.DELAYS;
 import volkov.artiam.printers.IPrinter;
+import volkov.artiam.printers.NoPrinter;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -27,6 +29,7 @@ public class ArduinoServiceWithListeners extends ArduinoService implements IPrin
     private ArduinoServiceWithListeners(){
         super();
         supportRx = new PropertyChangeSupport(this);
+        this.setPrinter(new NoPrinter() );
     }
 
     @Override
@@ -38,6 +41,14 @@ public class ArduinoServiceWithListeners extends ArduinoService implements IPrin
             e.printStackTrace();
         }
         this.getPrinter().print(command);
+        ADDS.waitMilliseconds(DELAYS.DEFAULT_DELAY.getDelay());
+    }
+
+
+    public boolean openPort(){
+        boolean isOpened = super.openPort();
+        ADDS.waitMilliseconds(DELAYS.AFTER_CONNECT_DELAY.getDelay());
+        return isOpened;
     }
 
     @Override

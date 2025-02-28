@@ -23,7 +23,10 @@ public enum DATAS {
 
     ATT_AUTO_ON("POS_3_3V;ON;"),
     ATT_AUTO_OFF("POS_3_3V;ON;"),
-    ATT("ATT;"),                    //COMMAND_ATT_ ATT = "ATT;31.5;" ;      //Пример
+    ATT("ATT;"),                    //установка значения аттенюации      //Пример "ATT;31.5;" ;     (0.0 ... 31.5)
+
+    TM_ATT("TM_ATT;") ,             //получение значения телеметрии      //Пример "TM_ATT;0;" ;     (0 ... 63)
+    TM_ATT_Postfix(";") ,
 
     CONNECT("CONNECT;"),
     DISCONNECT("CONNECT;"),

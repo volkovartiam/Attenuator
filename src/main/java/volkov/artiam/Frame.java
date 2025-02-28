@@ -12,10 +12,6 @@ public class Frame extends JFrame {
 
 	Frame() {
 
-		//ArduinoAccess.getInstance().addPropertyChangeListener(pnlMain.console);
-		//ArduinoAccess.getInstance().addPropertyChangeListener(pnlMain.channelMain);
-		//pnlMain.setPrinter( ArduinoAccess.getInstance() );
-
 		setTitle("Программа управления аттенюатора") ;
 		setResizable(false);
 		setMinimumSize(new Dimension(sizeX, sizeY ));

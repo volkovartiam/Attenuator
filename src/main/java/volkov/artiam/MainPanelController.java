@@ -1,7 +1,10 @@
 package volkov.artiam;
 
+import volkov.artiam.arduino.ArduinoChecker;
 import volkov.artiam.arduino.ArduinoServiceWithListeners;
+import volkov.artiam.datas.ADDS;
 import volkov.artiam.datas.DATAS;
+import volkov.artiam.datas.DELAYS;
 import volkov.artiam.panels.mainPanel.MainPanel;
 import volkov.artiam.printers.ConsolePrinter;
 import volkov.artiam.printers.IPrinter;
@@ -22,7 +25,9 @@ public class MainPanelController implements ActionListener {
     String disconnect = DATAS.DISCONNECT_BUTTON.toString();
 
     ArduinoServiceWithListeners arduino = ArduinoServiceWithListeners.getInstance();
-    IPrinter printer = new NoPrinter();
+    IPrinter printer = new ConsolePrinter();
+
+    ArduinoChecker arduinoChecker = new ArduinoChecker();
 
     MainPanelController(){
         mainPanel.setPrinter(arduino);
@@ -31,12 +36,14 @@ public class MainPanelController implements ActionListener {
         btnUpdate.addActionListener(this);
         btnConnect.addActionListener(this);
 
-        arduino.addPropertyChangeListener(mainPanel.pnl.console );
-        /*
-        ArduinoAccess.getInstance().addPropertyChangeListener(pnlMain.channelMain);
-        ArduinoAccess.getInstance().addPropertyChangeListener(pnlMain.channelReserve);
-        ArduinoAccess.getInstance().addPropertyChangeListener(charts);
-         */
+        arduino.addPropertyChangeListener(mainPanel.pnl.att);
+        arduino.addPropertyChangeListener(mainPanel.pnl.console);
+        arduino.addPropertyChangeListener(mainPanel.pnl.control);
+        arduino.addPropertyChangeListener(mainPanel);
+        arduino.addPropertyChangeListener(mainPanel.pnl.port);
+
+
+
     }
 
     @Override
@@ -48,7 +55,6 @@ public class MainPanelController implements ActionListener {
             printer.print("btnUpdate");
         }
         if(e.getSource().equals(btnConnect)) {
-
             if(actionCommand.equals(connect)) {
                 arduino.setPortByName(mainPanel.getSelectedPort());
                 arduino.openPort();
@@ -57,8 +63,15 @@ public class MainPanelController implements ActionListener {
                 arduino.closePort();
             }
             mainPanel.setConnectedOrDisconnectedView(arduino.isOpen() );
-
+            if(arduino.isOpen()){
+                arduinoChecker.setPort();
+                arduinoChecker.thread.start();
+            }
             printer.print("btnConnect");
+        }
+
+        if(e.getSource().equals("Disconnected")) {
+            printer.print("Something");
         }
 
     }

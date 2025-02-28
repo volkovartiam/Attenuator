@@ -2,6 +2,7 @@ package volkov.artiam.panels.control;
 
 import lombok.Getter;
 import lombok.Setter;
+import volkov.artiam.datas.DATAS;
 import volkov.artiam.panels.CastChangeListener;
 
 import javax.swing.*;
@@ -106,7 +107,23 @@ public class Control extends CastChangeListener implements ActionListener, ItemL
 
 
 	public void setTm(String data){
-		lblAttTM.setText("TM = " + data);
+
+		String tmPrefix = DATAS.TM_ATT.toString();
+		String tmPostfix = DATAS.TM_ATT_Postfix.toString();
+
+		if(data.contains(tmPrefix)  ) {
+
+			String substring = data.substring(data.indexOf(tmPrefix) + tmPrefix.length());
+			substring = substring.substring(0, substring.indexOf(tmPostfix));
+
+			try {
+				double value = Double.parseDouble(substring) * 0.5;
+				lblAttTM.setText("TM = " + value);
+			}catch (NumberFormatException e){
+				lblAttTM.setText("TM = " +  "ERROR");
+			}
+		}
+
 	}
 
 

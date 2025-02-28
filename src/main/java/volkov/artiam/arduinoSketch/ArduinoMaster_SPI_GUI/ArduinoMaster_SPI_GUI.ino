@@ -26,13 +26,14 @@ String ATT_AUTO_ON  = "ATT_AUTO;ON;" ;
 String ATT_AUTO_OFF  = "ATT_AUTO;OFF;" ;
 
 //Телеметрия получаемая от аттенюатора (должна совпадать с установленным значением)
-String TM = "TM_ATT;" ;                   
+String TM_ATT = "TM_ATT;" ;  
+String TM_ATT_Postfix = ";" ;                  
 
 
 String command = "";                       // Переменная для хранения команды
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-bool isAutoTM_OK = false;
+bool isAutoATT = false;
 
 int minValueSPI = 0;
 int maxValueSPI = 63;
@@ -41,14 +42,14 @@ int currentSPI = 63;
 
 
 // Настройки порта
-int delaySerialPrint = 100;
+int delaySerialPrint = 25;
 int serialBaudRate = 9600;
 
 
 
 // Настройки таймеров
 uint32_t timerReadPort;
-uint32_t timerReadPortDelay = 200;
+uint32_t timerReadPortDelay = 25;
 
 uint32_t timer_ATT_AUTO;
 uint32_t timer_ATT_AUTO_Delay = 500;
@@ -99,7 +100,7 @@ void loop() {
     if (millis() - timer_ATT_AUTO >= timer_ATT_AUTO_Delay) {        // для перебора цепей телеметрии основного канала
         timer_ATT_AUTO = millis();                                  // сброс таймера
     
-        if(isAutoTM_OK) {                                           // Получение ТМ основного канала в автоматическом режиме
+        if(isAutoATT) {                                           // Получение ТМ основного канала в автоматическом режиме
             runAttAuto();
         }
     }
@@ -216,13 +217,12 @@ void setATT(String parsedCommand){
       int val_ATT_SPI = (int) (val_ATT/0.5);
 
       if( val_ATT_SPI <= maxValueSPI ){
-        //setATT_SPI(maxValueSPI);
-        Serial.print(val_ATT_SPI, DEC);
+        setATT_Serial(val_ATT_SPI);
       }
     }else {
       //setATT_SPI(maxValueSPI);
       Serial.print("Command mistake set att = ");
-      Serial.print(maxValueSPI, DEC);
+      setATT_MAX_Serial();
     }
   }
 
@@ -286,23 +286,31 @@ return isValid;
 /////////// Управление аттенюатором в автоматическом режиме
 void setATT_AUTO( String coms ){
     if(coms.equals(ATT_AUTO_ON) ){
-      isAutoTM_OK = true;
+      isAutoATT = true;
     }
     if(coms.equals(ATT_AUTO_OFF) ){
-      isAutoTM_OK = false;
-      Serial.print(maxValueSPI, DEC);
+      isAutoATT = false;
+      setATT_MAX_Serial();
     }
 }
 
 void runAttAuto(){
-  Serial.print(currentSPI, DEC);
+  setATT_Serial(currentSPI);
   currentSPI = currentSPI - 1;
   if(currentSPI < 0){
     currentSPI = maxValueSPI;
   }
 }
 
+void setATT_Serial(int num){
+  Serial.print(TM_ATT);
+  Serial.print(num, DEC);
+  Serial.print(TM_ATT_Postfix);
+}
 
+void setATT_MAX_Serial(){
+  setATT_Serial(maxValueSPI);
+}
 
 /////////// Установка значение аттенюации по интерфейсу SPI
 void setATT_SPI(int num){

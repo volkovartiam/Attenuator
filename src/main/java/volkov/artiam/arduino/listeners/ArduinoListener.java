@@ -5,12 +5,13 @@ import volkov.artiam.arduino.ArduinoService;
 import volkov.artiam.arduino.ArduinoServiceWithListeners;
 import volkov.artiam.printers.ConsolePrinter;
 import volkov.artiam.printers.IPrinter;
+import volkov.artiam.printers.NoPrinter;
 
 public class ArduinoListener {
 
     ArduinoServiceWithListeners arduino;
 
-    IPrinter printer = new ConsolePrinter();
+    IPrinter printer = new NoPrinter();
 
     public ArduinoListener(){
         arduino = ArduinoServiceWithListeners.getInstance();
