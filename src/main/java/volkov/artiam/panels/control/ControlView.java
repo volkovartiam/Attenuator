@@ -14,6 +14,7 @@ public class ControlView extends JPanel {
 	JCheckBox chNegative = new JCheckBox("chNegative");
 	JButton btnSetAtt = new JButton("btnSetAtt");
 	JCheckBox chSliderEnable = new JCheckBox("Slider");
+	JCheckBox chAttAuto = new JCheckBox("Auto");
 
 	JLabel lblAttVal = new JLabel("15.5");
 	JLabel lblAttTM = new JLabel("“Ã = 15.5");
@@ -38,9 +39,13 @@ public class ControlView extends JPanel {
 
 		chSliderEnable = new JCheckBox("Slider");
 		chSliderEnable.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		chSliderEnable.setBounds(390, 11, 150, 23);
+		chSliderEnable.setBounds(390, 11, 100, 23);
 		add(chSliderEnable);
 
+		chAttAuto = new JCheckBox("Auto");
+		chAttAuto.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		chAttAuto.setBounds(800, 50, 150, 23);
+		add(chAttAuto);
 
 		lblAttVal.setOpaque(true);
 		//lblAttVal.setBorder(BorderFactory.createLineBorder(Color.gray));

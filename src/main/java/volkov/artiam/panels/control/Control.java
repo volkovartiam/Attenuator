@@ -22,6 +22,7 @@ public class Control extends CastChangeListener implements ActionListener, ItemL
 	JCheckBox chPositive = pnl.chPositive;
 	JCheckBox chNegative = pnl.chNegative;
 	JCheckBox chSliderEnable = pnl.chSliderEnable;
+	JCheckBox chAttAuto = pnl.chAttAuto;
 	JButton btnSetAtt = pnl.btnSetAtt;
 
 	private JLabel lblAttVal = pnl.lblAttVal;
@@ -35,6 +36,7 @@ public class Control extends CastChangeListener implements ActionListener, ItemL
 
 		chPositive.addItemListener(this);
 		chNegative.addItemListener(this);
+		chAttAuto.addItemListener(this);
 		btnSetAtt.addActionListener(this);
 
 		lblAttVal.setText("" + attValue);
@@ -56,6 +58,7 @@ public class Control extends CastChangeListener implements ActionListener, ItemL
 		chPositive.setEnabled(enabled);
 		chNegative.setEnabled(enabled);
 		chSliderEnable.setEnabled(enabled);
+		chAttAuto.setEnabled(enabled);
 		btnSetAtt.setEnabled(enabled);
 	}
 
@@ -101,6 +104,14 @@ public class Control extends CastChangeListener implements ActionListener, ItemL
 			} else {
 				printer.print("chSliderEnable + LOW");
 			}
+		}
+
+		if(chAttAuto.isSelected()){
+			printer.print(DATAS.ATT_AUTO_ON);
+			btnSetAtt.setEnabled(false);
+		} else {
+			printer.print(DATAS.ATT_AUTO_OFF);
+			btnSetAtt.setEnabled(true);
 		}
 
 	}

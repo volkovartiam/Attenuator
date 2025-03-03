@@ -28,6 +28,7 @@ public class MainPanel extends CastChangeListener implements ActionListener, Ite
 	JCheckBox chPositive = pnl.control.getChPositive();
 	JCheckBox chNegative = pnl.control.getChNegative();
 	JCheckBox chSlider = pnl.control.getChSliderEnable();
+	JCheckBox chAttAuto = pnl.control.getChAttAuto();
 
 	String LED_ON = DATAS.LED_ON_BUTTON.toString();
 	String LED_OFF = DATAS.LED_OFF_BUTTON.toString();
@@ -49,6 +50,7 @@ public class MainPanel extends CastChangeListener implements ActionListener, Ite
 		chPositive.addItemListener(this);
 		chNegative.addItemListener(this);
 		chSlider.addItemListener(this);
+		chAttAuto.addItemListener(this);
 
 		setSliderEnableOrNotView(chSlider.isSelected() );
 		setConnectedOrDisconnectedView(false);
@@ -150,6 +152,15 @@ public class MainPanel extends CastChangeListener implements ActionListener, Ite
 			}
 			updateValueAndLabels();
 			setSliderEnableOrNotView(sliderIsEnabled);
+		}
+
+
+		if(e.getSource().equals(chAttAuto) ) {
+			if(chAttAuto.isSelected()){
+				printer.print(DATAS.ATT_AUTO_ON);
+			} else {
+				printer.print(DATAS.ATT_AUTO_OFF);
+			}
 		}
 
 	}

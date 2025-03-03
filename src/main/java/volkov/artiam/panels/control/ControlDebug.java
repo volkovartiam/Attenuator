@@ -1,11 +1,14 @@
 package volkov.artiam.panels.control;
 
+import volkov.artiam.printers.ConsolePrinter;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class ControlDebug extends JFrame   {
 
 	Control control	= new Control();
+
 	//ControlView view = new ControlView();
 	JPanel pnl = control.getPnl();
 
@@ -13,6 +16,7 @@ public class ControlDebug extends JFrame   {
 	int ySize = 500;
 
 	ControlDebug() {
+		control.setPrinter(new ConsolePrinter());
 		control.setTm("yyyyTM_ATT;63;xxx");
 		setTitle("Для отладки панели управления питанием") ;
 		setMinimumSize(new Dimension(xSize, ySize));

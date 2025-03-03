@@ -21,8 +21,8 @@ public enum DATAS {
     POS_3_3V_ON("POS_3_3V;ON;"),
     POS_3_3V_OFF("POS_3_3V;OFF;"),
 
-    ATT_AUTO_ON("POS_3_3V;ON;"),
-    ATT_AUTO_OFF("POS_3_3V;ON;"),
+    ATT_AUTO_ON("ATT_AUTO;ON;"),
+    ATT_AUTO_OFF("ATT_AUTO;OFF;"),
     ATT("ATT;"),                    //установка значения аттенюации      //Пример "ATT;31.5;" ;     (0.0 ... 31.5)
 
     TM_ATT("TM_ATT;") ,             //получение значения телеметрии      //Пример "TM_ATT;0;" ;     (0 ... 63)

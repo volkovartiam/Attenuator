@@ -1,14 +1,10 @@
 package volkov.artiam;
 
-import volkov.artiam.arduino.ArduinoChecker;
 import volkov.artiam.arduino.ArduinoServiceWithListeners;
-import volkov.artiam.datas.ADDS;
 import volkov.artiam.datas.DATAS;
-import volkov.artiam.datas.DELAYS;
 import volkov.artiam.panels.mainPanel.MainPanel;
 import volkov.artiam.printers.ConsolePrinter;
 import volkov.artiam.printers.IPrinter;
-import volkov.artiam.printers.NoPrinter;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -27,8 +23,6 @@ public class MainPanelController implements ActionListener {
     ArduinoServiceWithListeners arduino = ArduinoServiceWithListeners.getInstance();
     IPrinter printer = new ConsolePrinter();
 
-    ArduinoChecker arduinoChecker = new ArduinoChecker();
-
     MainPanelController(){
         mainPanel.setPrinter(arduino);
         mainPanel.setPorts( arduino.getPortsNames() );
@@ -41,8 +35,6 @@ public class MainPanelController implements ActionListener {
         arduino.addPropertyChangeListener(mainPanel.pnl.control);
         arduino.addPropertyChangeListener(mainPanel);
         arduino.addPropertyChangeListener(mainPanel.pnl.port);
-
-
 
     }
 
@@ -63,10 +55,6 @@ public class MainPanelController implements ActionListener {
                 arduino.closePort();
             }
             mainPanel.setConnectedOrDisconnectedView(arduino.isOpen() );
-            if(arduino.isOpen()){
-                arduinoChecker.setPort();
-                arduinoChecker.thread.start();
-            }
             printer.print("btnConnect");
         }
 
