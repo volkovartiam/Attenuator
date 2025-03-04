@@ -16,7 +16,7 @@
  <br> <br>
 
 Ссылки для работы с программой и [дополнительные материалы](https://github.com/volkovartiam/Attenuator/tree/main/src/main/java/volkov/artiam/arduinoSketch):
-- Attenuator GUI можно скачать по ссылке [GitHub](https://github.com/volkovartiam/Attenuator/blob/main/target/Attenuator-0.0.1-SNAPSHOT.jar) <br>
+- Attenuator GUI можно скачать по ссылке [GitHub](https://github.com/volkovartiam/Attenuator/blob/main/out/artifacts/Attenuator_jar/Attenuator.jar) <br>
 - ПО Arduino (использовался Arduino UNO) для ознакомления работы с Attenuator GUI [GitHub](https://github.com/volkovartiam/Attenuator/blob/main/src/main/java/volkov/artiam/arduinoSketch/ArduinoMaster_SPI_GUI/ArduinoMaster_SPI_GUI.ino) <br>
 - ПО Arduino для работы непосредственно с макетом и Attenuator GUI [GitHub](https://github.com/volkovartiam/Attenuator/blob/main/src/main/java/volkov/artiam/arduinoSketch/ArduinoMasterSPI/ArduinoMasterSPI.ino) <br>
 (написано для Arduino UNO, возможно лучше использовать Arduino DUE, определим по результатам макетирования)
